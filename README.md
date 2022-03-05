@@ -1,4 +1,4 @@
-# eggtension README
+# Eggtension README
 
 This is the README for the extension "Eggtension". 
 This extension helps to "crack the code" of working with python enironments using conda.
