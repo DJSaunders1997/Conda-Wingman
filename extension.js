@@ -72,7 +72,28 @@ function activate(context) {
 	);
 	context.subscriptions.push(runGetFileName);
 
+	let buildCondaYAMLFunct = vscode.commands.registerCommand('eggtension.buildCondaYAML',
+	function () {
 
+		// https://stackoverflow.com/questions/53076566/visual-studio-code-extension-getting-active-tab-data-for-non-textual-files
+		const activeEditor = vscode.window.activeTextEditor;
+
+		var filename = activeEditor.document.fileName
+
+		console.log(`Filename is :${filename}`);
+		vscode.window.showInformationMessage(`Creating Env from ${filename}\n This may take up to a minute...`);
+
+		// Run the conda create environment command
+		const terminal_output = execSync(`\"conda env create -f ${filename}\"`, { encoding: 'utf-8' });
+
+		console.log(`Creating env from file output:\n${terminal_output}`);
+
+		//TODO: Get name of created environment and show to user
+		vscode.window.showInformationMessage(`Conda environment created!`);
+
+	}
+);
+context.subscriptions.push(buildCondaYAMLFunct);
 
 }
 

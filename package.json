@@ -16,7 +16,8 @@
 		"onCommand:eggtension.runCommand",
 		"onCommand:eggtension.runPipFreeze",
 		"onCommand:eggtension.runCondaEnvs",
-		"onCommand:eggtension.runGetFileName"
+		"onCommand:eggtension.runGetFileName",
+		"onCommand:eggtension.buildCondaYAML"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -36,6 +37,10 @@
 			{
 				"command": "eggtension.runGetFileName",
 				"title": "Run Get FileName"
+			},
+			{
+				"command": "eggtension.buildCondaYAML",
+				"title": "Build Conda Environment from YAML file"
 			}
 
 		]
