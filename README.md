@@ -1,6 +1,8 @@
 # eggtension README
 
-This is the README for your extension "Eggtension". After writing up a brief description, we recommend including the following sections.
+This is the README for the extension "Eggtension". 
+This extension helps to "crack the code" of working with python enironments using conda.
+Most features are QoL improvements that help programmers use rnvironments without having to memorise all of the conda commands.
 
 # TODO 
 
