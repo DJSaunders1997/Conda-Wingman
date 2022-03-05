@@ -1,6 +1,6 @@
 # eggtension README
 
-This is the README for your extension "eggtension". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "Eggtension". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
@@ -63,3 +63,16 @@ Added features X, Y, and Z.
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
+
+
+### Sources Used
+
+This is a non-comprehensive list of resources I used to go from 0 javascript knowledge to creating an extension.
+
+- https://code.visualstudio.com/api/get-started/your-first-extension
+
+YouTube Vids:
+- Creating A Simple VSCode Extension https://www.youtube.com/watch?v=srwsnNhiqv8
+- How To Create And Deploy A VSCode Extension https://www.youtube.com/watch?v=q5V4T3o3CXE 
+- How to Code a VSCode Extension https://www.youtube.com/watch?v=a5DX5pQ9p5M
+
