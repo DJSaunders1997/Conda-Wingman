@@ -1,24 +1,43 @@
 {
 	"name": "eggtension",
-	"displayName": "Eggtension",
-	"description": "Extension to crack the cmanaging python environmentspython environments",
+	"displayName": "Eggtension for Python Environments",
+	"description": "",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
 	"categories": [
-		"Other"
+		"Other",
+		"Snippets",
+		"Data Science",
+		"Machine Learning"
 	],
 	"activationEvents": [
-		"onCommand:eggtension.helloWorld"
+		"onCommand:eggtension.runCommand",
+		"onCommand:eggtension.runPipFreeze",
+		"onCommand:eggtension.runCondaEnvs",
+		"onCommand:eggtension.runGetFileName"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "eggtension.helloWorld",
-				"title": "Hello World"
+				"command": "eggtension.runCommand",
+				"title": "Eggtension Run Command"
+			},
+			{
+				"command": "eggtension.runPipFreeze",
+				"title": "Run Pip Freeze"
+			},
+			{
+				"command": "eggtension.runCondaEnvs",
+				"title": "Run List Conda Envs"
+			},
+			{
+				"command": "eggtension.runGetFileName",
+				"title": "Run Get FileName"
 			}
+
 		]
 	},
 	"scripts": {
