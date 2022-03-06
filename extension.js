@@ -8,7 +8,7 @@ const vscode = require('vscode');
 // Examples are given in TypeScript, so converted to JavaScript with an online converter https://extendsclass.com/typescript-to-javascript.html
 // Function created by me to encapsulate the example terminalapi.sendText VSCode command
 function sendCommandToTerminal(command) {
-	
+
 	// If there is no active terminal then create one
 	// Then read in the active terminal for us to use
 	var terminal = vscode.window.activeTerminal
@@ -30,15 +30,6 @@ function sendCommandToTerminal(command) {
 function activate(context) {
 
 	console.log('Congratulations, your extension "eggtension" is now active!');
-
-	// Terminal.sendText
-	context.subscriptions.push(
-		vscode.commands.registerCommand('eggtension.sendText',
-			function () {
-				sendCommandToTerminal('ls');
-			}
-		)
-	)
 
 
 	// Build Conda Env Command

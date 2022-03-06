@@ -13,17 +13,12 @@
 		"Machine Learning"
 	],
 	"activationEvents": [
-		"onCommand:eggtension.sendText",
 		"onCommand:eggtension.buildCondaYAML",
 		"onCommand:eggtension.deleteCondaEnv"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
-			{
-				"command": "eggtension.sendText",
-				"title": "SendText"
-			},
 			{
 				"command": "eggtension.buildCondaYAML",
 				"title": "Build Conda Environment from YAML file"
