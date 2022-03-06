@@ -13,6 +13,7 @@
 		"Machine Learning"
 	],
 	"activationEvents": [
+		"onLanguage:yaml",
 		"onCommand:eggtension.buildCondaYAML",
 		"onCommand:eggtension.deleteCondaEnv"
 	],
