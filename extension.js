@@ -71,6 +71,27 @@ function activate(context) {
 	);
 	context.subscriptions.push(buildCondaYAMLFunct);
 
+	let deleteCondaEnvFunct = vscode.commands.registerCommand('eggtension.deleteCondaEnv',
+	function () {
+
+		// TODO list conda envs to use as dropdown / selection window
+		// Run conda env list and parse results into a useable object / dict
+
+		vscode.window.showInputBox("Test Input box")
+
+
+
+		// TODO get response from user as to which env they want to delete
+
+		// Delete that specific env (maybe deactivate first if that is the active env)
+
+		console.log("TODO: This will delete a chosen conda env")
+
+	}
+);
+context.subscriptions.push(deleteCondaEnvFunct);
+
+
 }
 
 module.exports = {

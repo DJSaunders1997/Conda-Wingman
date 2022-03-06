@@ -15,7 +15,8 @@
 	"activationEvents": [
 		"onCommand:eggtension.runCondaEnvs",
 		"onCommand:eggtension.runGetFileName",
-		"onCommand:eggtension.buildCondaYAML"
+		"onCommand:eggtension.buildCondaYAML",
+		"onCommand:eggtension.deleteCondaEnv"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -31,6 +32,10 @@
 			{
 				"command": "eggtension.buildCondaYAML",
 				"title": "Build Conda Environment from YAML file"
+			},
+			{
+				"command": "eggtension.deleteCondaEnv",
+				"title": "Delete Conda Environment"
 			}
 		]
 	},
