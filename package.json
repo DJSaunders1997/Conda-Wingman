@@ -1,23 +1,31 @@
 {
 	"name": "eggtension",
-	"displayName": "Eggtension",
-	"description": "Extension to crack the cmanaging python environmentspython environments",
+	"displayName": "Eggtension for Python Environments",
+	"description": "",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
 	"categories": [
-		"Other"
+		"Other",
+		"Snippets",
+		"Data Science",
+		"Machine Learning"
 	],
 	"activationEvents": [
-		"onCommand:eggtension.helloWorld"
+		"onCommand:eggtension.buildCondaYAML",
+		"onCommand:eggtension.deleteCondaEnv"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "eggtension.helloWorld",
-				"title": "Hello World"
+				"command": "eggtension.buildCondaYAML",
+				"title": "Build Conda Environment from YAML file"
+			},
+			{
+				"command": "eggtension.deleteCondaEnv",
+				"title": "Delete Conda Environment"
 			}
 		]
 	},
