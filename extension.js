@@ -11,39 +11,6 @@ function activate(context) {
 
 	console.log('Congratulations, your extension "eggtension" is now active!');
 
-	let runCondaEnvs = vscode.commands.registerCommand('eggtension.runCondaEnvs',
-		function () {
-
-			vscode.window.showInformationMessage('Running command: conda env list');
-
-			// Run Pip freeze in terminal
-			const output = execSync('\"conda env list\"', { encoding: 'utf-8' });
-
-			console.log('Output was:\n', output);
-			vscode.window.showInformationMessage('Output was:\n', output);
-		}
-	);
-	context.subscriptions.push(runCondaEnvs);
-
-	let runGetFileName = vscode.commands.registerCommand('eggtension.runGetFileName',
-		function () {
-
-			// const activeEditor: TextEditor = window.activeTextEditor;
-			// if (activeEditor && activeEditor.document && activeEditor.document.fileName) {
-			// 	return activeEditor.document.fileName;
-			// }
-
-			// https://stackoverflow.com/questions/53076566/visual-studio-code-extension-getting-active-tab-data-for-non-textual-files
-			const activeEditor = vscode.window.activeTextEditor;
-
-			var filename = activeEditor.document.fileName
-
-			console.log(`Filename is :${filename}`);
-			vscode.window.showInformationMessage(`Filename is :${filename}`);
-		}
-	);
-	context.subscriptions.push(runGetFileName);
-
 	let buildCondaYAMLFunct = vscode.commands.registerCommand('eggtension.buildCondaYAML',
 		function () {
 

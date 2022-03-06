@@ -13,22 +13,12 @@
 		"Machine Learning"
 	],
 	"activationEvents": [
-		"onCommand:eggtension.runCondaEnvs",
-		"onCommand:eggtension.runGetFileName",
 		"onCommand:eggtension.buildCondaYAML",
 		"onCommand:eggtension.deleteCondaEnv"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
-			{
-				"command": "eggtension.runCondaEnvs",
-				"title": "Run List Conda Envs"
-			},
-			{
-				"command": "eggtension.runGetFileName",
-				"title": "Run Get FileName"
-			},
 			{
 				"command": "eggtension.buildCondaYAML",
 				"title": "Build Conda Environment from YAML file"
