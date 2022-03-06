@@ -22,8 +22,7 @@
 	"preview": true,
 	"activationEvents": [
 		"onLanguage:yaml",
-		"onCommand:conda-wingman.buildCondaYAML",
-		"onCommand:conda-wingman.deleteCondaEnv"
+		"onCommand:conda-wingman.buildCondaYAML"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -31,10 +30,6 @@
 			{
 				"command": "conda-wingman.buildCondaYAML",
 				"title": "Build Conda Environment from YAML file"
-			},
-			{
-				"command": "conda-wingman.deleteCondaEnv",
-				"title": "Delete Conda Environment"
 			}
 		]
 	},
