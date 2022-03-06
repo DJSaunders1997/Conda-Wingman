@@ -1,44 +1,30 @@
 // This file contains the main logic for the extension
 
 // The module 'vscode' contains the VS Code extensibility API
-// The module 'execSync' is used to execute shell commands: https://stackoverflow.com/questions/1880198/how-to-execute-shell-command-in-javascript
-
 const vscode = require('vscode');
-const execSync = require('child_process').execSync;
 
 // Terminal Functions copied from microsoft example terminal API
 // https://github.com/microsoft/vscode-extension-samples/blob/main/terminal-sample/src/extension.ts
 // Examples are given in TypeScript, so converted to JavaScript with an online converter https://extendsclass.com/typescript-to-javascript.html
-function selectTerminal() {
-	var terminals = vscode.window.terminals;
-	var items = terminals.map(function (t) {
-		return {
-			label: "name: ".concat(t.name),
-			terminal: t
-		};
-	});
-	return vscode.window.showQuickPick(items).then(function (item) {
-		return item ? item.terminal : undefined;
-	});
-}
-function ensureTerminalExists() {
-	if (vscode.window.terminals.length === 0) {
-		vscode.window.showErrorMessage('No active terminals');
-		return false;
-	}
-	return true;
-}
-
-// Function created by me to excapsulate the example terminalapi.sendText VSCode command
+// Function created by me to encapsulate the example terminalapi.sendText VSCode command
 function sendCommandToTerminal(command) {
-	if (ensureTerminalExists()) {
-		selectTerminal().then(function (terminal) {
-			if (terminal) {
-				//TODO: Change this to input whatever we want
-				terminal.sendText(command);
-			}
-		});
+	
+	// If there is no active terminal then create one
+	// Then read in the active terminal for us to use
+	var terminal = vscode.window.activeTerminal
+
+	if (typeof terminal == 'undefined') {
+		vscode.window.showInformationMessage('No active terminal found. Creating new terminal.')
+		console.log('No active terminal found. Creating new terminal.')
+
+		var terminal = vscode.window.createTerminal()
 	}
+
+	// Send command to active/new terminal
+	terminal.show()	
+	terminal.sendText(command)
+
+	console.log(`Command '${command}' sent to terminal`)
 }
 
 function activate(context) {
@@ -86,9 +72,6 @@ function activate(context) {
 
 			// TODO: Show progress of creating env
 			// https://stackoverflow.com/questions/43695200/how-to-implement-a-busy-indicator-in-vscode
-
-			//TODO: Get name of created environment and show to user
-			vscode.window.showInformationMessage(`Conda environment created!`);
 
 		}
 	);
