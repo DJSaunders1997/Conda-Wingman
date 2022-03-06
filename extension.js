@@ -14,6 +14,9 @@ function activate(context) {
 	let buildCondaYAMLFunct = vscode.commands.registerCommand('eggtension.buildCondaYAML',
 		function () {
 
+			// TODO Add text / button to status bar that says something like "Create Env from file". Maybe with a snazzy logo too
+			// similar to this https://marketplace.visualstudio.com/items?itemName=RoscoP.ActiveFileInStatusBar
+
 			// https://stackoverflow.com/questions/53076566/visual-studio-code-extension-getting-active-tab-data-for-non-textual-files
 			const activeEditor = vscode.window.activeTextEditor;
 
