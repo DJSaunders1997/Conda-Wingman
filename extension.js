@@ -45,31 +45,31 @@ function activate(context) {
 	context.subscriptions.push(runGetFileName);
 
 	let buildCondaYAMLFunct = vscode.commands.registerCommand('eggtension.buildCondaYAML',
-	function () {
+		function () {
 
-		// https://stackoverflow.com/questions/53076566/visual-studio-code-extension-getting-active-tab-data-for-non-textual-files
-		const activeEditor = vscode.window.activeTextEditor;
+			// https://stackoverflow.com/questions/53076566/visual-studio-code-extension-getting-active-tab-data-for-non-textual-files
+			const activeEditor = vscode.window.activeTextEditor;
 
-		var filename = activeEditor.document.fileName
+			var filename = activeEditor.document.fileName
 
-		console.log(`Filename is :${filename}`);
-		
-		// Convert file path \\ characters to /
-		var filenameForwardSlash = filename.split('\\').join('/')
-		console.log(`Ammended filename is :${filenameForwardSlash}`);
+			console.log(`Filename is :${filename}`);
 
-		vscode.window.showInformationMessage(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`);
+			// Convert file path \\ characters to /
+			var filenameForwardSlash = filename.split('\\').join('/')
+			console.log(`Ammended filename is :${filenameForwardSlash}`);
 
-		// Run the conda create environment command
-		const terminal_output = execSync(`conda env create -f ${filenameForwardSlash}`, { encoding: 'utf-8' });
-		console.log(`Creating env from file output:\n${terminal_output}`);
+			vscode.window.showInformationMessage(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`);
 
-		//TODO: Get name of created environment and show to user
-		vscode.window.showInformationMessage(`Conda environment created!`);
+			// Run the conda create environment command
+			const terminal_output = execSync(`conda env create -f ${filenameForwardSlash}`, { encoding: 'utf-8' });
+			console.log(`Creating env from file output:\n${terminal_output}`);
 
-	}
-);
-context.subscriptions.push(buildCondaYAMLFunct);
+			//TODO: Get name of created environment and show to user
+			vscode.window.showInformationMessage(`Conda environment created!`);
+
+		}
+	);
+	context.subscriptions.push(buildCondaYAMLFunct);
 
 }
 
