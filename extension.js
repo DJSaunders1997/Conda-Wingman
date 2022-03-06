@@ -6,10 +6,54 @@
 const vscode = require('vscode');
 const execSync = require('child_process').execSync;
 
+// Terminal Functions copied from microsoft example terminal API
+// https://github.com/microsoft/vscode-extension-samples/blob/main/terminal-sample/src/extension.ts
+// Examples are given in TypeScript, so converted to JavaScript with an online converter https://extendsclass.com/typescript-to-javascript.html
+function selectTerminal() {
+	var terminals = vscode.window.terminals;
+	var items = terminals.map(function (t) {
+		return {
+			label: "name: ".concat(t.name),
+			terminal: t
+		};
+	});
+	return vscode.window.showQuickPick(items).then(function (item) {
+		return item ? item.terminal : undefined;
+	});
+}
+function ensureTerminalExists() {
+	if (vscode.window.terminals.length === 0) {
+		vscode.window.showErrorMessage('No active terminals');
+		return false;
+	}
+	return true;
+}
+
+// Function created by me to excapsulate the example terminalapi.sendText VSCode command
+function sendCommandToTerminal(command) {
+	if (ensureTerminalExists()) {
+		selectTerminal().then(function (terminal) {
+			if (terminal) {
+				//TODO: Change this to input whatever we want
+				terminal.sendText(command);
+			}
+		});
+	}
+}
 
 function activate(context) {
 
 	console.log('Congratulations, your extension "eggtension" is now active!');
+
+	// Terminal.sendText
+	context.subscriptions.push(
+		vscode.commands.registerCommand('eggtension.sendText',
+			function () {
+				sendCommandToTerminal('ls');
+			}
+		)
+	)
+
 
 	// Build Conda Env Command
 	// This command will build a conda environment from the file active in window.
@@ -37,8 +81,8 @@ function activate(context) {
 			console.log(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`)
 
 			// Run the conda create environment command
-			const terminal_output = execSync(`conda env create -f ${filenameForwardSlash}`, { encoding: 'utf-8' });
-			console.log(`Creating env from file output:\n${terminal_output}`);
+			var command = `conda env create -f ${filenameForwardSlash}`
+			sendCommandToTerminal(command)
 
 			// TODO: Show progress of creating env
 			// https://stackoverflow.com/questions/43695200/how-to-implement-a-busy-indicator-in-vscode
@@ -80,8 +124,10 @@ function activate(context) {
 		// TODO: Add loading animation so users knows extension is still running.
 		vscode.window.showInformationMessage(`Deleting Env:\n'${result}'\n This may take up to a minute...`);
 		console.log(`Deleting Env:\n'${result}'\n This may take up to a minute...`)
-		const terminal_output = execSync(`conda env remove --name ${result}`, { encoding: 'utf-8' });
-		console.log(`Delete Env terminal output:\n${terminal_output}`);
+
+		// Run the conda remove environment command
+		var command = `conda env remove --name ${result}`
+		sendCommandToTerminal(command)
 
 		// If no errors / after try catch block
 		// TODO: Verify that env no longer shows up in updated env list "conda info --envs"
