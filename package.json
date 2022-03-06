@@ -13,8 +13,6 @@
 		"Machine Learning"
 	],
 	"activationEvents": [
-		"onCommand:eggtension.runCommand",
-		"onCommand:eggtension.runPipFreeze",
 		"onCommand:eggtension.runCondaEnvs",
 		"onCommand:eggtension.runGetFileName",
 		"onCommand:eggtension.buildCondaYAML"
@@ -22,14 +20,6 @@
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
-			{
-				"command": "eggtension.runCommand",
-				"title": "Eggtension Run Command"
-			},
-			{
-				"command": "eggtension.runPipFreeze",
-				"title": "Run Pip Freeze"
-			},
 			{
 				"command": "eggtension.runCondaEnvs",
 				"title": "Run List Conda Envs"
@@ -42,7 +32,6 @@
 				"command": "eggtension.buildCondaYAML",
 				"title": "Build Conda Environment from YAML file"
 			}
-
 		]
 	},
 	"scripts": {

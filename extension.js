@@ -11,34 +11,6 @@ function activate(context) {
 
 	console.log('Congratulations, your extension "eggtension" is now active!');
 
-	// Function to run an example command
-	let runCommandFunct = vscode.commands.registerCommand('eggtension.runCommand',
-		function () {
-
-			const output = execSync('dir', { encoding: 'utf-8' });  // the default is 'buffer'
-
-			console.log('Output was:\n', output);
-			vscode.window.showInformationMessage('Output was:\n', output);
-
-
-		}
-	);
-
-	context.subscriptions.push(runCommandFunct);
-
-	// Function to run an example command
-	let runPipFreezeFunct = vscode.commands.registerCommand('eggtension.runPipFreeze',
-		function () {
-
-			// Run Pip freeze in terminal
-			const output = execSync('pip freeze', { encoding: 'utf-8' });  // the default is 'buffer'
-
-			console.log('Output was:\n', output);
-			vscode.window.showInformationMessage('Output was:\n', output);
-		}
-	);
-	context.subscriptions.push(runPipFreezeFunct);
-
 	let runCondaEnvs = vscode.commands.registerCommand('eggtension.runCondaEnvs',
 		function () {
 
