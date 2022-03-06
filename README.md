@@ -1,15 +1,15 @@
 # Eggtension README
 
-This is the README for the extension "Eggtension". 
-This extension helps to "crack the code" of working with python enironments using conda.
-Most features are QoL improvements that help programmers use rnvironments without having to memorise all of the conda commands.
+This is the README for the WIP extension "Eggtension". 
+This extension helps to "crack the code" of working with python environments using conda.
+Most features are QoL improvements that help programmers use environments without having to memorise all of the conda commands.
 
 # TODO 
 
 ## TODO Features:
 - Create conda environment from running command when conda environment is open
     - Functionality should be easy to implement with current codebase.
-- Create conda environment from running command when conda environemnt is NOT open. 
+- Create conda environment from running command when conda environment is NOT open. 
     - (Scan all .yml files in working directory and then build any that look like valid yml)
     - (If there are more than 1 yml file display a dropdown to the user so they can choose which yml to build off of)
 - Auto-read filename each time a new file is opened. Then add button/tooltip/inline message asking users if they want to build this conda file.
