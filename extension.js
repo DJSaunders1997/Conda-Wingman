@@ -27,9 +27,19 @@ function sendCommandToTerminal(command) {
 	console.log(`Command '${command}' sent to terminal`)
 }
 
+// Create Status Bar Icon
+// Select Icons from this list https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
+var icon = vscode.window.createStatusBarItem('createEnvStatusBar',1)
+icon.text = '$(flame)Create Env from YAML $(note)'
+icon.color = 'Gold'
+icon.tooltip = 'Click here to create a conda environment from the open YAML file'
+icon.command = 'eggtension.buildCondaYAML'
+icon.show()
+
 function activate(context) {
 
 	console.log('Congratulations, your extension "eggtension" is now active!');
+
 
 
 	// Build Conda Env Command
