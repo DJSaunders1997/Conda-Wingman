@@ -47,6 +47,23 @@ function activate(context) {
 	context.subscriptions.push(buildCondaYAMLFunct);
 
 
+		/**
+	 * Shows an input box using window.showInputBox().
+	 * Higher level wrapper around vscode.window.showInputBox
+	 * Source: https://stackoverflow.com/questions/55854519/how-to-ask-user-for-username-or-other-data-with-vs-code-extension-api
+	 */
+		 async function showInputBox() {
+			const result = await vscode.window.showInputBox({
+				value: 'abcdef',
+				valueSelection: [2, 4],
+				placeHolder: 'For example: fedcba. But not: 123',
+				validateInput: text => {
+					vscode.window.showInformationMessage(`Validating: ${text}`);
+					return text === '123' ? 'Not 123!' : null;
+				}
+			});
+			vscode.window.showInformationMessage(`Got: ${result}`);
+		}
 
 
 	// Delete Conda Env Command
@@ -59,15 +76,17 @@ function activate(context) {
 		// TODO list conda envs to use as dropdown / selection window
 		// Run conda env list and parse results into a useable object / dict
 
-		vscode.window.showInputBox("Test Input box")
 
+		var response =  showInputBox("Test Input box");
+		vscode.window.showInformationMessage(response);
 
+		console.log(response);
 
 		// TODO get response from user as to which env they want to delete
 
 		// Delete that specific env (maybe deactivate first if that is the active env)
 
-		console.log("TODO: This will delete a chosen conda env")
+		console.log("TODO: This will delete a chosen conda env");
 
 	}
 );
