@@ -71,17 +71,17 @@ var icon = vscode.window.createStatusBarItem('createEnvStatusBar',1)
 icon.text = '$(flame)Create Env from YAML $(note)'
 icon.color = 'Gold'
 icon.tooltip = 'Click here to create a conda environment from the open YAML file'
-icon.command = 'eggtension.buildCondaYAML'
+icon.command = 'conda-wingman.buildCondaYAML'
 
 function activate(context) {
 
-	console.log('Congratulations, your extension "eggtension" is now active!');
+	console.log('Congratulations, your extension "Conda Wingman" is now active!');
 
 	icon.show() //TODO check file is yaml file
 
 	// Build Conda Env Command
 	// This command will build a conda environment from the file active in window.
-	let buildCondaYAMLFunct = vscode.commands.registerCommand('eggtension.buildCondaYAML',
+	let buildCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.buildCondaYAML',
 		function () {
 
 			var activeFilename = vscode.window.activeTextEditor.document.fileName
@@ -161,7 +161,7 @@ function activate(context) {
 	// Delete Conda Env Command
 	// This command will delete a conda environment given the name of the environment from the user.
 	// Deletes environments as stated in the conda docs https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#removing-an-environment
-	let deleteCondaEnvFunct = vscode.commands.registerCommand('eggtension.deleteCondaEnv',
+	let deleteCondaEnvFunct = vscode.commands.registerCommand('conda-wingman.deleteCondaEnv',
 		function () {
 
 			// TODO: Can I get the same list of python interpreters as used by the python extension?

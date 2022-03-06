@@ -1,6 +1,6 @@
 {
-	"name": "eggtension",
-	"displayName": "Eggtension for Python Environments",
+	"name": "conda-wingman",
+	"displayName": "Conda Wingman",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -12,20 +12,28 @@
 		"Data Science",
 		"Machine Learning"
 	],
+	"keywords": [
+		"Conda",
+		"Wingman",
+		"Environment",
+		"Environments",
+		"YAML"
+	],
+	"preview": true,
 	"activationEvents": [
 		"onLanguage:yaml",
-		"onCommand:eggtension.buildCondaYAML",
-		"onCommand:eggtension.deleteCondaEnv"
+		"onCommand:conda-wingman.buildCondaYAML",
+		"onCommand:conda-wingman.deleteCondaEnv"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "eggtension.buildCondaYAML",
+				"command": "conda-wingman.buildCondaYAML",
 				"title": "Build Conda Environment from YAML file"
 			},
 			{
-				"command": "eggtension.deleteCondaEnv",
+				"command": "conda-wingman.deleteCondaEnv",
 				"title": "Delete Conda Environment"
 			}
 		]
