@@ -27,25 +27,37 @@ function sendCommandToTerminal(command) {
 	console.log(`Command '${command}' sent to terminal`)
 }
 
-// Deactivate extension if active window changes from a YAML file.
-var listener = function (event) {
-	console.log('Active window changed', event)
-	
+// Helper function to check if active file is a YAML file
+// Return true if active file is YAML
+function activeFileIsYAML() {
 	var activeFilename = vscode.window.activeTextEditor.document.fileName
 
 	// split string by . and return last array element to get extension
 	var fileExt = activeFilename.split('.').pop();
 
-	// If file is not yaml then deactivate the extension
-	if (fileExt.toLowerCase()!='yaml' && fileExt.toLowerCase()!='yml'){
-		// TODO: Check if this does anything
-		console.log('Deactivate extension as YAML file not in focus')
-		
-		icon.hide()
-		deactivate()
+	if (fileExt.toLowerCase()=='yaml' || fileExt.toLowerCase()=='yml'){
+		return true
 	}
 	else {
+		return false
+	}
+}
+
+// Deactivate extension if active window changes from a YAML file.
+var listener = function (event) {
+	console.log('Active window changed', event)
+
+	// If file is not yaml then deactivate the extension
+	if ( activeFileIsYAML() ){
 		activate()
+
+	}
+	else {
+		// TODO: Check if this does anything
+		console.log('Deactivate extension as YAML file not in focus')
+
+		icon.hide()
+		deactivate()
 	}
 
 };
@@ -69,35 +81,36 @@ function activate(context) {
 
 	// Build Conda Env Command
 	// This command will build a conda environment from the file active in window.
-	// It first gets the name of the active file, removes escape character \\ and then runs "conda env create -f file"
 	let buildCondaYAMLFunct = vscode.commands.registerCommand('eggtension.buildCondaYAML',
 		function () {
 
-			// TODO Add text / button to status bar that says something like "Create Env from file". Maybe with a snazzy logo too
-			// similar to this https://marketplace.visualstudio.com/items?itemName=RoscoP.ActiveFileInStatusBar
+			var activeFilename = vscode.window.activeTextEditor.document.fileName
 
-			// https://stackoverflow.com/questions/53076566/visual-studio-code-extension-getting-active-tab-data-for-non-textual-files
-			var activeEditor = vscode.window.activeTextEditor;
+			// Validate open file is YAML
+			if( activeFileIsYAML() ) {
+				var activeEditor = vscode.window.activeTextEditor;
 
-			// TODO: Validation that file ends in .yaml or .yml
-			// If not exit function and show vscode information message saying "Cannot build conda env from a {fileExtension} file. Only YAML files are supported."
-			var filename = activeEditor.document.fileName
+				var filename = activeEditor.document.fileName
 
-			console.log(`Filename is :${filename}`);
+				console.log(`Filename is :${filename}`);
 
-			// Convert file path \\ characters to /
-			var filenameForwardSlash = filename.split('\\').join('/')
-			console.log(`Amended filename is :${filenameForwardSlash}`);
+				// Convert file path \\ characters to /
+				var filenameForwardSlash = filename.split('\\').join('/')
+				console.log(`Amended filename is :${filenameForwardSlash}`);
 
-			vscode.window.showInformationMessage(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`);
-			console.log(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`)
+				vscode.window.showInformationMessage(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`);
+				console.log(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`)
 
-			// Run the conda create environment command
-			var command = `conda env create -f ${filenameForwardSlash}`
-			sendCommandToTerminal(command)
+				// Run the conda create environment command
+				var command = `conda env create -f ${filenameForwardSlash}`
+				sendCommandToTerminal(command)
 
-			// TODO: Show progress of creating env
-			// https://stackoverflow.com/questions/43695200/how-to-implement-a-busy-indicator-in-vscode
+			}
+			else {
+				// split string by . and return last array element to get extension
+				var fileExt = activeFilename.split('.').pop();
+				vscode.window.showErrorMessage(`Cannot build conda env from a ${fileExt} file. Only YAML files are supported.`);
+			}
 
 		}
 	);
