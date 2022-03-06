@@ -34,10 +34,14 @@ function activate(context) {
 			console.log(`Amended filename is :${filenameForwardSlash}`);
 
 			vscode.window.showInformationMessage(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`);
+			console.log(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`)
 
 			// Run the conda create environment command
 			const terminal_output = execSync(`conda env create -f ${filenameForwardSlash}`, { encoding: 'utf-8' });
 			console.log(`Creating env from file output:\n${terminal_output}`);
+
+			// TODO: Show progress of creating env
+			// https://stackoverflow.com/questions/43695200/how-to-implement-a-busy-indicator-in-vscode
 
 			//TODO: Get name of created environment and show to user
 			vscode.window.showInformationMessage(`Conda environment created!`);
