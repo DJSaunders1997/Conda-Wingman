@@ -44,7 +44,11 @@ When a YAML file is opened as the active file in the text editor the option to c
 
 Selecting this will run the command 
 ```conda env create -f YOUR-REQUIREMENTS.YML```
-in the most recently used integrated terminal, or will create a new integrated terminal if one does not exist.
+in the most recently used integrated terminal. If no terminals currently exist the extension will create a new one.
+
+The same functionallity can also be accessed by running the command ```>Conda Wingman: Build Conda Environment from YAML file``` in VSCode command pallet:
+
+![Screenshot](images/Pallet-Create-Screenshot.png)
 
 ## Release Notes
 

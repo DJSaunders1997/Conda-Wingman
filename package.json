@@ -29,7 +29,7 @@
 		"commands": [
 			{
 				"command": "conda-wingman.buildCondaYAML",
-				"title": "Build Conda Environment from YAML file"
+				"title": "Conda Wingman: Build Conda Environment from YAML file"
 			}
 		]
 	},
