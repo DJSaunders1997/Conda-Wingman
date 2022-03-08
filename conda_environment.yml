@@ -20,5 +20,3 @@ dependencies:
     - python-dateutil==2.8.2
     - pytz==2021.3
     - six==1.16.0
-prefix: C:\ProgramData\Anaconda3\envs\example_conda_env
-
