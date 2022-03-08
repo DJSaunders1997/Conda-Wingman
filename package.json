@@ -1,8 +1,9 @@
 {
 	"name": "conda-wingman",
 	"displayName": "Conda Wingman",
-	"description": "",
-	"version": "0.0.1",
+	"description": "Help programmers use environments without memorising conda commands.",
+	"version": "0.0.2",
+	"publisher": "DJSaunders1997",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
@@ -12,6 +13,11 @@
 		"Data Science",
 		"Machine Learning"
 	],
+	"icon": "images/Logo-512x512.png",
+	"galleryBanner": {
+		"color": "#42AF29",
+		"theme": "dark"
+	},
 	"keywords": [
 		"Conda",
 		"Wingman",
@@ -29,7 +35,7 @@
 		"commands": [
 			{
 				"command": "conda-wingman.buildCondaYAML",
-				"title": "Build Conda Environment from YAML file"
+				"title": "Conda Wingman: Build Conda Environment from YAML file"
 			}
 		]
 	},
@@ -48,5 +54,10 @@
 		"mocha": "^9.2.1",
 		"typescript": "^4.5.5",
 		"@vscode/test-electron": "^2.1.2"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/DJSaunders1997/Conda-Wingman.git"
+	},
+	"homepage": "https://github.com/DJSaunders1997/Conda-Wingman#readme"
 }

@@ -1,35 +1,62 @@
 # Conda Wingman README
 
-This is the README for the WIP extension "Conda Wingman". 
-This extension helps to "crack the code" of working with python environments using conda.
-Most features are QoL improvements that help programmers use environments without having to memorise all of the conda commands.
+![Banner](images/Logo-Banner.png)
 
-# TODO 
+This is the README for the WIP extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman&ssr=false#overview).
 
-## TODO Features:
-- Create conda environment from running command when conda environment is open
-    - Functionality should be easy to implement with current codebase.
-- Create conda environment from running command when conda environment is NOT open. 
-    - (Scan all .yml files in working directory and then build any that look like valid yml)
-    - (If there are more than 1 yml file display a dropdown to the user so they can choose which yml to build off of)
-- Auto-read filename each time a new file is opened. Then add button/tooltip/inline message asking users if they want to build this conda file.
-- Detect when new packages are added to the conda env and ask user if they want to add to the yaml.
-- If users try to build an environment that already exists then show prompt asking if they would like to overwrite existing environment.
-- Easy deletion of environments.
+This extension aims to help VSCode users manage and interact with Conda environments.
+Conda Wingman aims to add QoL improvements that help programmers use environments without having to memorise all of the conda commands.
 
-## TODO Fixes
-- Commands should be OS agnostic.
-    - Failing this users should at least be able to enter their OS in a config file somewhere.
-    - Can we get the running OS in JavaScript and then have a conditional to run command for only that OS each time we want to run a command?
+## Features
+Currently Conda Wingman features are limited, but with big plans : )
 
-### Sources Used
+### Creating Environments 
+Currently the only feature of the extension is to easily allow users to create environments from a conda requirements.yaml file.
 
-This is a non-comprehensive list of resources I used to go from 0 javascript knowledge to creating an extension.
+e.g.
+```
+name: example_conda_env
+channels:
+  - defaults
+dependencies:
+  - ca-certificates=2022.2.1=haa95532_0
+  - certifi=2021.10.8=py39haa95532_2
+  - openssl=1.1.1m=h2bbff1b_0
+  - pip=21.2.4=py39haa95532_0
+  - python=3.9.7=h6244533_1
+  - setuptools=58.0.4=py39haa95532_0
+  - sqlite=3.37.2=h2bbff1b_0
+  - tzdata=2021e=hda174b7_0
+  - vc=14.2=h21ff451_1
+  - vs2015_runtime=14.27.29016=h5e58377_2
+  - wheel=0.37.1=pyhd3eb1b0_0
+  - wincertstore=0.2=py39haa95532_2
+  - pip:
+    - numpy==1.22.2
+    - pandas==1.4.1
+    - python-dateutil==2.8.2
+    - pytz==2021.3
+    - six==1.16.0
+```
+When a YAML file is opened as the active file in the text editor the option to create an environment from said file will be shown to the user in the status bar:
 
-- https://code.visualstudio.com/api/get-started/your-first-extension
+![Status Bar](images/Status-Bar-Screenshot.png)
 
-YouTube Vids:
-- Creating A Simple VSCode Extension https://www.youtube.com/watch?v=srwsnNhiqv8
-- How To Create And Deploy A VSCode Extension https://www.youtube.com/watch?v=q5V4T3o3CXE 
-- How to Code a VSCode Extension https://www.youtube.com/watch?v=a5DX5pQ9p5M
+Selecting this will run the command 
+```conda env create -f YOUR-REQUIREMENTS.YML```
+in the most recently used integrated terminal. If no terminals currently exist the extension will create a new one.
 
+The same functionallity can also be accessed by running the command ```>Conda Wingman: Build Conda Environment from YAML file``` in VSCode command pallet:
+
+![Command Pallet](images/Pallet-Create-Screenshot.png)
+
+## Release Notes
+
+### 0.0.1
+
+Initial release of extension to VSCode Extension Marketplace
+
+
+## Author
+
+David Saunders - 2022
