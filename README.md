@@ -1,6 +1,6 @@
 # Conda Wingman README
 
-![](images/Logo-Banner.png)
+![Banner](images/Logo-Banner.png)
 
 This is the README for the WIP extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman&ssr=false#overview).
 
@@ -40,7 +40,7 @@ dependencies:
 ```
 When a YAML file is opened as the active file in the text editor the option to create an environment from said file will be shown to the user in the status bar:
 
-![Screenshot](images/Status-Bar-Screenshot.png)
+![Status Bar](images/Status-Bar-Screenshot.png)
 
 Selecting this will run the command 
 ```conda env create -f YOUR-REQUIREMENTS.YML```
@@ -48,7 +48,7 @@ in the most recently used integrated terminal. If no terminals currently exist t
 
 The same functionallity can also be accessed by running the command ```>Conda Wingman: Build Conda Environment from YAML file``` in VSCode command pallet:
 
-![Screenshot](images/Pallet-Create-Screenshot.png)
+![Command Pallet](images/Pallet-Create-Screenshot.png)
 
 ## Release Notes
 
