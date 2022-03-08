@@ -17,7 +17,7 @@
 	"galleryBanner": {
 		"color": "#42AF29",
 		"theme": "dark"
-	  },
+	},
 	"keywords": [
 		"Conda",
 		"Wingman",
@@ -58,6 +58,6 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/DJSaunders1997/Conda-Wingman.git"
-	  },
-	  "homepage": "https://github.com/DJSaunders1997/Conda-Wingman#readme"
+	},
+	"homepage": "https://github.com/DJSaunders1997/Conda-Wingman#readme"
 }
