@@ -13,6 +13,11 @@
 		"Data Science",
 		"Machine Learning"
 	],
+	"icon": "images/Logo-512x512.png",
+	"galleryBanner": {
+		"color": "#42AF29",
+		"theme": "dark"
+	  },
 	"keywords": [
 		"Conda",
 		"Wingman",
