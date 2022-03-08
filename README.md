@@ -1,8 +1,8 @@
 # Conda Wingman README
 
-![Screenshot](images/Logo-Banner.png)
+![](images/Logo-Banner.png)
 
-This is the README for the WIP extension "Conda Wingman".
+This is the README for the WIP extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman&ssr=false#overview).
 
 This extension aims to help VSCode users manage and interact with Conda environments.
 Conda Wingman aims to add QoL improvements that help programmers use environments without having to memorise all of the conda commands.
