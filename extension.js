@@ -70,6 +70,28 @@ var listener = function (event) {
 var subscription = vscode.window.onDidChangeActiveTextEditor(listener);
 //subscription.dispose(); // stop listening for more active file changes
 
+
+/**
+ * 
+ * @returns the filepath of the open document
+ * 
+ * Reads the current open document, and converts the path into a more friendly format.
+ * TODO: Find out what happens if there is no open document
+ * TODO: make this OS agnostic, as I'm sure this only effects windows atm.
+ */
+function getOpenDocumentPath() {
+	var activeEditor = vscode.window.activeTextEditor;
+	var filename = activeEditor.document.fileName
+
+	console.log(`Filename is :${filename}`);
+
+	// Convert file path \\ characters to /
+	var filenameForwardSlash = filename.split('\\').join('/')
+	console.log(`Amended filename is :${filenameForwardSlash}`);
+
+	return filenameForwardSlash
+}
+
 /**
  * 
  * @param {string} filenameForwardSlash : filename or path to yaml environment file.
@@ -116,7 +138,7 @@ function activate(context) {
 
 	icon.show() //TODO check file is yaml file
 
-	// Build Conda Env Command
+	// Command: "Conda Wingman: Build Conda Environment from YAML file"
 	// This command will build a conda environment from the file active in window.
 	let buildCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.buildCondaYAML',
 		function () {
@@ -125,15 +147,8 @@ function activate(context) {
 
 			// Validate open file is YAML
 			if( activeFileIsYAML() ) {
-				var activeEditor = vscode.window.activeTextEditor;
-
-				var filename = activeEditor.document.fileName
-
-				console.log(`Filename is :${filename}`);
-
-				// Convert file path \\ characters to /
-				var filenameForwardSlash = filename.split('\\').join('/')
-				console.log(`Amended filename is :${filenameForwardSlash}`);
+				
+				var filenameForwardSlash = getOpenDocumentPath()
 
 				// TODO: add $(loading~spin) onto status bar until after terminal has finished running command 
 				vscode.window.showInformationMessage(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`);
@@ -155,6 +170,29 @@ function activate(context) {
 		}
 	);
 	context.subscriptions.push(buildCondaYAMLFunct);
+
+	// Command: "Conda Wingman: Activate Conda Environment from YAML file"
+	// This command will activate the Conda environment named in the opened YAML file.
+	let activateCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.activateCondaYAML',
+	function () {
+
+		var activeFilename = vscode.window.activeTextEditor.document.fileName
+
+		// Validate open file is YAML
+		if( activeFileIsYAML() ) {
+			var filenameForwardSlash = getOpenDocumentPath()
+
+			activateEnvFromYAML(filenameForwardSlash)
+		}
+		else {
+			// split string by . and return last array element to get extension
+			var fileExt = activeFilename.split('.').pop();
+			vscode.window.showErrorMessage(`Cannot read conda env info from a ${fileExt} file. Only YAML files are supported.`);
+		}
+
+	}
+);
+context.subscriptions.push(activateCondaYAMLFunct);
 
 	// Command: "Conda Wingman: Update open YAML file from the active Conda Environment"
 	// This command will update the open requirements.yaml with packages from the active environment.
