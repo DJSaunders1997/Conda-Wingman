@@ -153,6 +153,38 @@ function activate(context) {
 	);
 	context.subscriptions.push(updateCondaYAMLFunct);
 
+	/**
+	 * Shows an input box using window.showInputBox().
+	 * Higher level wrapper around vscode.window.showInputBox
+	 * Source: https://stackoverflow.com/questions/55854519/how-to-ask-user-for-username-or-other-data-with-vs-code-extension-api
+	 */
+	 async function createYAMLInputBox() {
+		const result = await vscode.window.showInputBox({
+			value: 'requirements.yml',
+			placeHolder: 'Name of created YAML',
+			validateInput: text => {
+				// TODO: Figure out how this validation works and how I can use it.
+				// Then the validation here would be to make sure the input is an element of the array.
+				vscode.window.showInformationMessage(`Validating: ${text}`);
+			}
+		});
+		vscode.window.showInformationMessage(`Got: ${result}`);
+
+		console.log("Running asynchronous createYAMLInputBox function ");
+
+		//TODO: Maybe check the string isn't null before hand.
+		// 		Or we let conda handel the validation for us in the terminal?
+
+		vscode.window.showInformationMessage(`Creating YAML Env:\n'${result}'\n This may take up a couple of seconds...`);
+		console.log(`Creating YAML Env:\n'${result}'\n This may take up a couple of seconds...`)
+
+		// Run the conda create environment command
+		var command = `conda env export > "${result}"`
+		sendCommandToTerminal(command)
+
+	}
+
+
 
 	// Command: "Conda Wingman: Create a YAML file from the active Conda Environment"
 	// This command will create a requirements yaml to with a name input from the user.
@@ -160,33 +192,14 @@ function activate(context) {
 	let createCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.createCondaYAML',
 		function () {
 
-			var activeFilename = vscode.window.activeTextEditor.document.fileName
+			// Get response from user as to which env they want to delete
+			var response = createYAMLInputBox();
+			console.log('Response: ', response);
 
-			// Validate open file is YAML
-			if( activeFileIsYAML() ) {
-				var activeEditor = vscode.window.activeTextEditor;
-
-				var filename = activeEditor.document.fileName
-
-				console.log(`Filename is :${filename}`);
-
-				// Convert file path \\ characters to /
-				var filenameForwardSlash = filename.split('\\').join('/')
-				console.log(`Amended filename is :${filenameForwardSlash}`);
-
-				vscode.window.showInformationMessage(`Exporting active Conda environment to ${filenameForwardSlash} .`);
-				console.log(`Exporting active Conda environment to ${filenameForwardSlash} .`)
-
-				// Run the conda create environment command
-				var command = `conda env export > "${filenameForwardSlash}"`
-				sendCommandToTerminal(command)
-
-			}
-			else {
-				// split string by . and return last array element to get extension
-				var fileExt = activeFilename.split('.').pop();
-				vscode.window.showErrorMessage(`Cannot export a conda env to a ${fileExt} file. Only YAML files are supported.`);
-			}
+			console.log(
+				`While the createCondaYAMLFunct has finished running.
+		The deleteInputBox function is still running in the background.`
+			);
 
 		}
 	);
