@@ -70,6 +70,38 @@ var listener = function (event) {
 var subscription = vscode.window.onDidChangeActiveTextEditor(listener);
 //subscription.dispose(); // stop listening for more active file changes
 
+/**
+ * 
+ * @param {string} filenameForwardSlash : filename or path to yaml environment file.
+ * 
+ * Function will read the specified yaml file and pick out the "name" value.
+ * Then attempts to activate this environment with the terminal.
+ */
+function activateEnvFromYAML(filenameForwardSlash) {
+	// Send to terminal the command to activate the environment too
+	// We can get the name by reading the YAML's value to the name: key using js-yaml
+	try {
+		const yamlDoc = yaml.load(fs.readFileSync(filenameForwardSlash, 'utf8'));
+		console.log(yamlDoc);
+
+		var env_name = yamlDoc["name"]
+
+		vscode.window.showInformationMessage(`Activating ${env_name} .`);
+		console.log(`Activating ${env_name} .`)
+
+		// Run the conda create environment command
+		var command = `conda activate ${env_name}`
+		sendCommandToTerminal(command)
+
+	} catch (e) {
+		console.log("Error parsing the yaml")
+		console.log(e);
+	}
+
+}
+
+
+// TODO: Make this a function
 // Create Status Bar Icon
 // Select Icons from this list https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
 var icon = vscode.window.createStatusBarItem('createEnvStatusBar',1)
@@ -103,6 +135,7 @@ function activate(context) {
 				var filenameForwardSlash = filename.split('\\').join('/')
 				console.log(`Amended filename is :${filenameForwardSlash}`);
 
+				// TODO: add $(loading~spin) onto status bar until after terminal has finished running command 
 				vscode.window.showInformationMessage(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`);
 				console.log(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`)
 
@@ -110,22 +143,7 @@ function activate(context) {
 				var command = `conda env create -f "${filenameForwardSlash}"`
 				sendCommandToTerminal(command)
 
-				// Send to terminal the command to activate the environment too
-				// We can get the name by reading the YAML's value to the name: key using js-yaml
-				try {
-					const yamlDoc = yaml.load(fs.readFileSync(filenameForwardSlash, 'utf8'));
-					console.log(yamlDoc);
-
-					var env_name = yamlDoc["name"]
-
-					// Run the conda create environment command
-					var command = `conda activate ${env_name}`
-					sendCommandToTerminal(command)
-
-				} catch (e) {
-					console.log("Error parsing the yaml")
-					console.log(e);
-				}
+				activateEnvFromYAML(filenameForwardSlash)
 
 			}
 			else {
