@@ -1,4 +1,4 @@
-# Conda Wingman README
+# Conda Wingman
 
 ![Banner](images/Logo-Banner.png)
 
@@ -52,6 +52,14 @@ The same functionallity can also be accessed by running the command ```>Conda Wi
 
 ## Release Notes
 
+### 0.1.0
+
+Changing to [semantic versioning numbers](https://semver.org/).
+Added functionality to create conda environment YAML files from the command pallet.
+
+### 0.0.2
+
+Improving readme.
 ### 0.0.1
 
 Initial release of extension to VSCode Extension Marketplace
