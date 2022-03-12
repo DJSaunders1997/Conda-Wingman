@@ -161,11 +161,10 @@ function activate(context) {
 	 async function createYAMLInputBox() {
 		const result = await vscode.window.showInputBox({
 			value: 'requirements.yml',
-			placeHolder: 'Name of created YAML',
+			placeHolder: 'Name of created conda environment YAML',
 			validateInput: text => {
 				// TODO: Figure out how this validation works and how I can use it.
-				// Then the validation here would be to make sure the input is an element of the array.
-				vscode.window.showInformationMessage(`Validating: ${text}`);
+				// vscode.window.showInformationMessage(`Validating: ${text}`);
 			}
 		});
 		vscode.window.showInformationMessage(`Got: ${result}`);
@@ -175,8 +174,8 @@ function activate(context) {
 		//TODO: Maybe check the string isn't null before hand.
 		// 		Or we let conda handel the validation for us in the terminal?
 
-		vscode.window.showInformationMessage(`Creating YAML Env:\n'${result}'\n This may take up a couple of seconds...`);
-		console.log(`Creating YAML Env:\n'${result}'\n This may take up a couple of seconds...`)
+		vscode.window.showInformationMessage(`Creating YAML Env:\n'${result}' .`);
+		console.log(`Creating YAML Env:\n'${result}' .`)
 
 		// Run the conda create environment command
 		var command = `conda env export > "${result}"`
