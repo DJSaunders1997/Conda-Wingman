@@ -61,7 +61,7 @@ var listener = function (event) {
 		// TODO: Check if this does anything
 		console.log('Deactivate extension as YAML file not in focus')
 
-		icon.hide()
+		createEnvIcon.hide()
 		deactivate()
 	}
 
@@ -126,17 +126,17 @@ function activateEnvFromYAML(filenameForwardSlash) {
 // TODO: Make this a function
 // Create Status Bar Icon
 // Select Icons from this list https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
-var icon = vscode.window.createStatusBarItem('createEnvStatusBar',1)
-icon.text = '$(flame)Create Env from YAML $(note)'
-icon.color = 'Gold'
-icon.tooltip = 'Click here to create a conda environment from the open YAML file'
-icon.command = 'conda-wingman.buildCondaYAML'
+var createEnvIcon = vscode.window.createStatusBarItem('createEnvStatusBar',1)
+createEnvIcon.text = '$(flame)Create Env from YAML $(note)'
+createEnvIcon.color = 'Gold'
+createEnvIcon.tooltip = 'Click here to create a conda environment from the open YAML file'
+createEnvIcon.command = 'conda-wingman.buildCondaYAML'
 
 function activate(context) {
 
 	console.log('Congratulations, your extension "Conda Wingman" is now active!');
 
-	icon.show() //TODO check file is yaml file
+	createEnvIcon.show() //TODO check file is yaml file
 
 	// Command: "Conda Wingman: Build Conda Environment from YAML file"
 	// This command will build a conda environment from the file active in window.
@@ -286,7 +286,7 @@ context.subscriptions.push(activateCondaYAMLFunct);
 
 // this method is called when your extension is deactivated
 function deactivate() {
-	icon.hide()
+	createEnvIcon.hide()
 }
 
 module.exports = {
