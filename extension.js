@@ -62,12 +62,13 @@ var listener = function (event) {
 		console.log('Deactivate extension as YAML file not in focus')
 
 		createEnvIcon.hide()
+		activateEnvIcon.hide()
 		deactivate()
 	}
 
 };
 
-var subscription = vscode.window.onDidChangeActiveTextEditor(listener);
+var fileChangeSubscription = vscode.window.onDidChangeActiveTextEditor(listener);
 //subscription.dispose(); // stop listening for more active file changes
 
 
@@ -124,19 +125,26 @@ function activateEnvFromYAML(filenameForwardSlash) {
 
 
 // TODO: Make this a function
-// Create Status Bar Icon
+// Create Status Bar Icons
 // Select Icons from this list https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
 var createEnvIcon = vscode.window.createStatusBarItem('createEnvStatusBar',1)
-createEnvIcon.text = '$(flame)Create Env from YAML $(note)'
-createEnvIcon.color = 'Gold'
-createEnvIcon.tooltip = 'Click here to create a conda environment from the open YAML file'
+createEnvIcon.text = '$(tools) Build Env from YAML'
+createEnvIcon.tooltip = 'Build conda environment from open YAML file'
 createEnvIcon.command = 'conda-wingman.buildCondaYAML'
+createEnvIcon.show()
+
+var activateEnvIcon = vscode.window.createStatusBarItem('activateEnvStatusBar',1)
+activateEnvIcon.text = '$(symbol-event) Activate Env from YAML'
+activateEnvIcon.tooltip = 'Activate conda environment referenced in open YAML file'
+activateEnvIcon.command = 'conda-wingman.activateCondaYAML'
+activateEnvIcon.show()
 
 function activate(context) {
 
 	console.log('Congratulations, your extension "Conda Wingman" is now active!');
 
-	createEnvIcon.show() //TODO check file is yaml file
+	activateEnvIcon.show()
+	// createEnvIcon.show() //TODO check file is yaml file
 
 	// Command: "Conda Wingman: Build Conda Environment from YAML file"
 	// This command will build a conda environment from the file active in window.
@@ -287,6 +295,8 @@ context.subscriptions.push(activateCondaYAMLFunct);
 // this method is called when your extension is deactivated
 function deactivate() {
 	createEnvIcon.hide()
+	activateEnvIcon.hide()
+	fileChangeSubscription.dispose(); // stop listening for more active file changes
 }
 
 module.exports = {
