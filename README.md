@@ -55,7 +55,7 @@ The same functionallity can also be accessed by running the command ```>Conda Wi
 ### 0.1.0
 
 Changing to [semantic versioning numbers](https://semver.org/).
-Added functionality to create conda environment YAML files from the command pallet.
+Added functionality to create conda environment YAML files from the command pallet. Small update to logo.
 
 ### 0.0.2
 
