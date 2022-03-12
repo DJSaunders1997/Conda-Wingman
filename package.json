@@ -29,6 +29,7 @@
 	"activationEvents": [
 		"onLanguage:yaml",
 		"onCommand:conda-wingman.buildCondaYAML",
+		"onCommand:conda-wingman.replaceCondaYAML",
 		"onCommand:conda-wingman.createCondaYAML"
 	],
 	"main": "./extension.js",
@@ -41,6 +42,10 @@
 			{
 				"command": "conda-wingman.createCondaYAML",
 				"title": "Conda Wingman: Create a YAML file from the active Conda Environment"
+			},
+			{
+				"command": "conda-wingman.updateCondaYAML",
+				"title": "Conda Wingman: Update open YAML file from the active Conda Environment"
 			}
 		]
 	},

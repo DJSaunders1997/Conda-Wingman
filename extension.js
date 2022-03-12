@@ -116,8 +116,47 @@ function activate(context) {
 	);
 	context.subscriptions.push(buildCondaYAMLFunct);
 
+	// Command: "Conda Wingman: Update open YAML file from the active Conda Environment"
+	// This command will update the open requirements.yaml with packages from the active environment.
+	let updateCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.updateCondaYAML',
+		function () {
+
+			var activeFilename = vscode.window.activeTextEditor.document.fileName
+
+			// Validate open file is YAML
+			if( activeFileIsYAML() ) {
+				var activeEditor = vscode.window.activeTextEditor;
+
+				var filename = activeEditor.document.fileName
+
+				console.log(`Filename is :${filename}`);
+
+				// Convert file path \\ characters to /
+				var filenameForwardSlash = filename.split('\\').join('/')
+				console.log(`Amended filename is :${filenameForwardSlash}`);
+
+				vscode.window.showInformationMessage(`Exporting active Conda environment to ${filenameForwardSlash} .`);
+				console.log(`Exporting active Conda environment to ${filenameForwardSlash} .`)
+
+				// Run the conda create environment command
+				var command = `conda env export > "${filenameForwardSlash}"`
+				sendCommandToTerminal(command)
+
+			}
+			else {
+				// split string by . and return last array element to get extension
+				var fileExt = activeFilename.split('.').pop();
+				vscode.window.showErrorMessage(`Cannot export a conda env to a ${fileExt} file. Only YAML files are supported.`);
+			}
+
+		}
+	);
+	context.subscriptions.push(updateCondaYAMLFunct);
+
+
 	// Command: "Conda Wingman: Create a YAML file from the active Conda Environment"
-	// This command will create a requirements.yaml into the file active in window.
+	// This command will create a requirements yaml to with a name input from the user.
+	// TODO: Ask user for input and save as input.yaml.
 	let createCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.createCondaYAML',
 		function () {
 
