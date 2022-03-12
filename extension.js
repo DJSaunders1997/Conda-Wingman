@@ -3,6 +3,11 @@
 // The module 'vscode' contains the VS Code extensibility API
 const vscode = require('vscode');
 
+// Required modules to read and parse yaml
+// https://www.npmjs.com/package/js-yaml
+const yaml = require('js-yaml');
+const fs   = require('fs');
+
 // Terminal Functions copied from microsoft example terminal API
 // https://github.com/microsoft/vscode-extension-samples/blob/main/terminal-sample/src/extension.ts
 // Examples are given in TypeScript, so converted to JavaScript with an online converter https://extendsclass.com/typescript-to-javascript.html
@@ -104,6 +109,23 @@ function activate(context) {
 				// Run the conda create environment command
 				var command = `conda env create -f "${filenameForwardSlash}"`
 				sendCommandToTerminal(command)
+
+				// Send to terminal the command to activate the environment too
+				// We can get the name by reading the YAML's value to the name: key using js-yaml
+				try {
+					const yamlDoc = yaml.load(fs.readFileSync(filenameForwardSlash, 'utf8'));
+					console.log(yamlDoc);
+
+					var env_name = yamlDoc["name"]
+
+					// Run the conda create environment command
+					var command = `conda activate ${env_name}`
+					sendCommandToTerminal(command)
+
+				} catch (e) {
+					console.log("Error parsing the yaml")
+					console.log(e);
+				}
 
 			}
 			else {
