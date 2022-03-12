@@ -102,7 +102,7 @@ function activate(context) {
 				console.log(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`)
 
 				// Run the conda create environment command
-				var command = `conda env create -f ${filenameForwardSlash}`
+				var command = `conda env create -f "${filenameForwardSlash}"`
 				sendCommandToTerminal(command)
 
 			}
@@ -115,6 +115,43 @@ function activate(context) {
 		}
 	);
 	context.subscriptions.push(buildCondaYAMLFunct);
+
+	// Command: "Conda Wingman: Create a YAML file from the active Conda Environment"
+	// This command will create a requirements.yaml into the file active in window.
+	let createCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.createCondaYAML',
+		function () {
+
+			var activeFilename = vscode.window.activeTextEditor.document.fileName
+
+			// Validate open file is YAML
+			if( activeFileIsYAML() ) {
+				var activeEditor = vscode.window.activeTextEditor;
+
+				var filename = activeEditor.document.fileName
+
+				console.log(`Filename is :${filename}`);
+
+				// Convert file path \\ characters to /
+				var filenameForwardSlash = filename.split('\\').join('/')
+				console.log(`Amended filename is :${filenameForwardSlash}`);
+
+				vscode.window.showInformationMessage(`Exporting active Conda environment to ${filenameForwardSlash} .`);
+				console.log(`Exporting active Conda environment to ${filenameForwardSlash} .`)
+
+				// Run the conda create environment command
+				var command = `conda env export > "${filenameForwardSlash}"`
+				sendCommandToTerminal(command)
+
+			}
+			else {
+				// split string by . and return last array element to get extension
+				var fileExt = activeFilename.split('.').pop();
+				vscode.window.showErrorMessage(`Cannot export a conda env to a ${fileExt} file. Only YAML files are supported.`);
+			}
+
+		}
+	);
+	context.subscriptions.push(createCondaYAMLFunct);
 
 }
 
