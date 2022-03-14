@@ -61,9 +61,9 @@ var listener = function (event) {
 		// TODO: Check if this does anything
 		console.log('Deactivate extension as YAML file not in focus')
 
-		createEnvIcon.hide()
-		activateEnvIcon.hide()
-		deactivate()
+		// createEnvIcon.hide()
+		// activateEnvIcon.hide()
+		// deactivate()
 	}
 
 };
@@ -124,27 +124,60 @@ function activateEnvFromYAML(filenameForwardSlash) {
 }
 
 
-// TODO: Make this a function
-// Create Status Bar Icons
-// Select Icons from this list https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
-var createEnvIcon = vscode.window.createStatusBarItem('createEnvStatusBar',1)
-createEnvIcon.text = '$(tools) Build Env from YAML'
-createEnvIcon.tooltip = 'Build conda environment from open YAML file'
-createEnvIcon.command = 'conda-wingman.buildCondaYAML'
-createEnvIcon.show()
+/**
+ * Class to extend the vscode createStatusBarItem with additional functionality.
+ * Represents the status bar that allows users to easily create environments.
+ * Choose symbols from this list https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
+ */
+ class customStatusBarItem{
+	constructor(defaultText, tooltip, command){
+		this.defaultText = defaultText
 
-var activateEnvIcon = vscode.window.createStatusBarItem('activateEnvStatusBar',1)
-activateEnvIcon.text = '$(symbol-event) Activate Env from YAML'
-activateEnvIcon.tooltip = 'Activate conda environment referenced in open YAML file'
-activateEnvIcon.command = 'conda-wingman.activateCondaYAML'
-activateEnvIcon.show()
+		this.statusBar = vscode.window.createStatusBarItem() // createStatusBarItem('createEnvStatusBar',1)
+		this.statusBar.text = defaultText
+		this.statusBar.tooltip = tooltip
+		this.statusBar.command = command
+		
+		this.displayDefault()
+	}
 
+	/***
+	 * Returning text to default state.
+	 */
+	displayDefault() {
+		this.statusBar.text = this.defaultText
+
+		if (activeFileIsYAML) {
+			this.statusBar.show()
+		}
+	}
+	/**
+	 * To be displayed when action is running from the button being selected.
+	 */
+	displayLoading() {
+		this.statusBar.text = this.defaultText + ' $(loading~spin)'
+
+		if (activeFileIsYAML) {
+			this.statusBar.show()
+		}
+	}
+
+}
+
+
+/**
+ * Function that is run on activation of extension.
+ * Here the main functionality of the function is defined.
+ * 
+ */
 function activate(context) {
 
 	console.log('Congratulations, your extension "Conda Wingman" is now active!');
 
-	activateEnvIcon.show()
-	// createEnvIcon.show() //TODO check file is yaml file
+
+	var createEnvIcon 	= new customStatusBarItem('$(tools) Build Env from YAML', 'Build conda environment from open YAML file', 'conda-wingman.buildCondaYAML')
+	var activateEnvIcon = new customStatusBarItem('$(symbol-event) Activate Env from YAML', 'Activate conda environment referenced in open YAML file', 'conda-wingman.activateCondaYAML')
+
 
 	// Command: "Conda Wingman: Build Conda Environment from YAML file"
 	// This command will build a conda environment from the file active in window.
@@ -161,6 +194,9 @@ function activate(context) {
 				// TODO: add $(loading~spin) onto status bar until after terminal has finished running command 
 				vscode.window.showInformationMessage(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`);
 				console.log(`Creating Env from ${filenameForwardSlash}\n This may take up to a minute...`)
+				
+				//Add loading icon to bar
+				createEnvIcon.displayLoading()
 
 				// Run the conda create environment command
 				var command = `conda env create -f "${filenameForwardSlash}"`
@@ -168,6 +204,8 @@ function activate(context) {
 
 				activateEnvFromYAML(filenameForwardSlash)
 
+				// Remove loading icon from bar
+				createEnvIcon.displayDefault()
 			}
 			else {
 				// split string by . and return last array element to get extension
@@ -190,7 +228,11 @@ function activate(context) {
 		if( activeFileIsYAML() ) {
 			var filenameForwardSlash = getOpenDocumentPath()
 
+			activateEnvIcon.displayLoading()
 			activateEnvFromYAML(filenameForwardSlash)
+
+			//Remove loading icon from bar
+			activateEnvIcon.displayDefault()
 		}
 		else {
 			// split string by . and return last array element to get extension
