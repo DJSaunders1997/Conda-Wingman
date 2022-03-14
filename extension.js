@@ -48,29 +48,6 @@ function activeFileIsYAML() {
 	}
 }
 
-// Deactivate extension if active window changes from a YAML file.
-var listener = function (event) {
-	console.log('Active window changed', event)
-
-	// If file is not yaml then deactivate the extension
-	if ( activeFileIsYAML() ){
-		activate()
-
-	}
-	else {
-		// TODO: Check if this does anything
-		console.log('Deactivate extension as YAML file not in focus')
-
-		// createEnvIcon.hide()
-		// activateEnvIcon.hide()
-		// deactivate()
-	}
-
-};
-
-var fileChangeSubscription = vscode.window.onDidChangeActiveTextEditor(listener);
-//subscription.dispose(); // stop listening for more active file changes
-
 
 /**
  * 
@@ -153,6 +130,8 @@ function activateEnvFromYAML(filenameForwardSlash) {
 	}
 	/**
 	 * To be displayed when action is running from the button being selected.
+	 * 
+	 * TODO: Loading functionality doesn't work find a fix.
 	 */
 	displayLoading() {
 		this.statusBar.text = this.defaultText + ' $(loading~spin)'
@@ -178,6 +157,22 @@ function activate(context) {
 	var createEnvIcon 	= new customStatusBarItem('$(tools) Build Env from YAML', 'Build conda environment from open YAML file', 'conda-wingman.buildCondaYAML')
 	var activateEnvIcon = new customStatusBarItem('$(symbol-event) Activate Env from YAML', 'Activate conda environment referenced in open YAML file', 'conda-wingman.activateCondaYAML')
 
+	// Setup listener to see when active file is not YAML
+	var listener = function (event) {
+		console.log('Active window changed', event)
+
+		// If file is not yaml then deactivate the extension
+		if ( !activeFileIsYAML() ){
+			createEnvIcon.hide()
+			activateEnvIcon.hide()
+		}
+
+	};
+
+	var fileChangeSubscription = vscode.window.onDidChangeActiveTextEditor(listener);
+	//subscription.dispose(); // stop listening for more active file changes
+
+
 
 	// Command: "Conda Wingman: Build Conda Environment from YAML file"
 	// This command will build a conda environment from the file active in window.
@@ -198,6 +193,8 @@ function activate(context) {
 				//Add loading icon to bar
 				createEnvIcon.displayLoading()
 
+				console.log("Display the loading bar")
+
 				// Run the conda create environment command
 				var command = `conda env create -f "${filenameForwardSlash}"`
 				sendCommandToTerminal(command)
@@ -206,6 +203,7 @@ function activate(context) {
 
 				// Remove loading icon from bar
 				createEnvIcon.displayDefault()
+				console.log("Now remove the loading bar")
 			}
 			else {
 				// split string by . and return last array element to get extension
@@ -336,9 +334,7 @@ context.subscriptions.push(activateCondaYAMLFunct);
 
 // this method is called when your extension is deactivated
 function deactivate() {
-	createEnvIcon.hide()
-	activateEnvIcon.hide()
-	fileChangeSubscription.dispose(); // stop listening for more active file changes
+	//fileChangeSubscription.dispose(); // stop listening for more active file changes
 }
 
 module.exports = {
