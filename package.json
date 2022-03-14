@@ -29,6 +29,7 @@
 	"activationEvents": [
 		"onLanguage:yaml",
 		"onCommand:conda-wingman.buildCondaYAML",
+		"onCommand:conda-wingman.activateCondaYAML",
 		"onCommand:conda-wingman.replaceCondaYAML",
 		"onCommand:conda-wingman.createCondaYAML"
 	],
@@ -38,6 +39,10 @@
 			{
 				"command": "conda-wingman.buildCondaYAML",
 				"title": "Conda Wingman: Build Conda Environment from YAML file"
+			},
+			{
+				"command": "conda-wingman.activateCondaYAML",
+				"title": "Conda Wingman: Activate Conda Environment from YAML file"
 			},
 			{
 				"command": "conda-wingman.createCondaYAML",
@@ -69,5 +74,8 @@
 		"type": "git",
 		"url": "https://github.com/DJSaunders1997/Conda-Wingman.git"
 	},
-	"homepage": "https://github.com/DJSaunders1997/Conda-Wingman#readme"
+	"homepage": "https://github.com/DJSaunders1997/Conda-Wingman#readme",
+	"dependencies": {
+		"js-yaml": "^4.1.0"
+	}
 }
