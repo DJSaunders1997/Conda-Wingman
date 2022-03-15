@@ -2,7 +2,7 @@
 	"name": "conda-wingman",
 	"displayName": "Conda Wingman",
 	"description": "Help programmers use environments without memorising conda commands.",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"publisher": "DJSaunders1997",
 	"engines": {
 		"vscode": "^1.65.0"
