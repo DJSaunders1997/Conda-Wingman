@@ -276,8 +276,8 @@ function activate(context) {
 			vscode.window.showErrorMessage(`Cannot create requirements file if no name is given.`);
 		}
 		else {
-			vscode.window.showInformationMessage(`Creating YAML Env:\n'${result}' .`);
-			console.log(`Creating YAML Env:\n'${result}' .`)
+			vscode.window.showInformationMessage(`Creating requirements file Env:\n'${result}' .`);
+			console.log(`Creating requirements file Env:\n'${result}' .`)
 	
 			// Run the conda create environment command
 			var command = `conda env export > "${result}"`
