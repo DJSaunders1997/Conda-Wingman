@@ -8,6 +8,9 @@ const vscode = require('vscode');
 const yaml = require('js-yaml');
 const fs   = require('fs');
 
+// Used to read and convert paths
+var path = require('path');
+
 // Terminal Functions copied from microsoft example terminal API
 // https://github.com/microsoft/vscode-extension-samples/blob/main/terminal-sample/src/extension.ts
 // Examples are given in TypeScript, so converted to JavaScript with an online converter https://extendsclass.com/typescript-to-javascript.html
@@ -284,22 +287,20 @@ context.subscriptions.push(activateCondaYAMLFunct);
 	 * Higher level wrapper around vscode.window.showInputBox
 	 * Source: https://stackoverflow.com/questions/55854519/how-to-ask-user-for-username-or-other-data-with-vs-code-extension-api
 	 */
-	 async function createYAMLInputBox() {
-		const result = await vscode.window.showInputBox({
-			value: 'requirements.yml',
+	 async function createYAMLInputBox(defaultValue) {
+		const result = 
+		await vscode.window.showInputBox({
+			value: defaultValue,
 			placeHolder: 'Name of created conda environment YAML',
 			validateInput: text => {
-				// TODO: Figure out how this validation works and how I can use it.
-				// vscode.window.showInformationMessage(`Validating: ${text}`);
+				if (text.length == 0){
+					return 'You cannot leave this empty!'
+				}
 			}
 		});
-		vscode.window.showInformationMessage(`Got: ${result}`);
-
+		console.log(`Got: ${result}`)
 		console.log("Running asynchronous createYAMLInputBox function ");
-
-		//TODO: Maybe check the string isn't null before hand.
-		// 		Or we let conda handel the validation for us in the terminal?
-
+		
 		vscode.window.showInformationMessage(`Creating YAML Env:\n'${result}' .`);
 		console.log(`Creating YAML Env:\n'${result}' .`)
 
@@ -317,14 +318,22 @@ context.subscriptions.push(activateCondaYAMLFunct);
 	let createCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.createCondaYAML',
 		function () {
 
-			// Get response from user as to which env they want to delete
-			var response = createYAMLInputBox();
-			console.log('Response: ', response);
+			// Use current filename as default value if possible.
+			var filepath = vscode.window.activeTextEditor.document.fileName
+			var filename = path.parse(filepath).base;
 
+			if (filepath == 'undefined'){
+				filename = 'requirements.yml'
+			}
+
+			// Get response from user as to what to call their env.
+			var response = createYAMLInputBox(filename);
+			console.log('Response: ', response);
+			
 			console.log(
 				`While the createCondaYAMLFunct has finished running.
-		The deleteInputBox function is still running in the background.`
-			);
+				The deleteInputBox function is still running in the background.`
+				);
 
 		}
 	);
