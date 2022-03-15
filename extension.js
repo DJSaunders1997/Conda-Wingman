@@ -242,45 +242,8 @@ function activate(context) {
 		}
 
 	}
-);
-context.subscriptions.push(activateCondaYAMLFunct);
-
-	// Command: "Conda Wingman: Update open YAML file from the active Conda Environment"
-	// This command will update the open requirements.yaml with packages from the active environment.
-	let updateCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.updateCondaYAML',
-		function () {
-
-			var activeFilename = vscode.window.activeTextEditor.document.fileName
-
-			// Validate open file is YAML
-			if( activeFileIsYAML() ) {
-				var activeEditor = vscode.window.activeTextEditor;
-
-				var filename = activeEditor.document.fileName
-
-				console.log(`Filename is :${filename}`);
-
-				// Convert file path \\ characters to /
-				var filenameForwardSlash = filename.split('\\').join('/')
-				console.log(`Amended filename is :${filenameForwardSlash}`);
-
-				vscode.window.showInformationMessage(`Exporting active Conda environment to ${filenameForwardSlash} .`);
-				console.log(`Exporting active Conda environment to ${filenameForwardSlash} .`)
-
-				// Run the conda create environment command
-				var command = `conda env export > "${filenameForwardSlash}"`
-				sendCommandToTerminal(command)
-
-			}
-			else {
-				// split string by . and return last array element to get extension
-				var fileExt = activeFilename.split('.').pop();
-				vscode.window.showErrorMessage(`Cannot export a conda env to a ${fileExt} file. Only YAML files are supported.`);
-			}
-
-		}
 	);
-	context.subscriptions.push(updateCondaYAMLFunct);
+	context.subscriptions.push(activateCondaYAMLFunct);
 
 	/**
 	 * Shows an input box using window.showInputBox().
@@ -296,18 +259,28 @@ context.subscriptions.push(activateCondaYAMLFunct);
 				if (text.length == 0){
 					return 'You cannot leave this empty!'
 				}
+				var fileExt = text.split('.').pop().toLowerCase()
+
+				if (fileExt!='yaml' && fileExt!='yml'){
+					return(`Only YAML files are supported!`);
+				}
+
 			}
 		});
-		console.log(`Got: ${result}`)
 		console.log("Running asynchronous createYAMLInputBox function ");
 		
-		vscode.window.showInformationMessage(`Creating YAML Env:\n'${result}' .`);
-		console.log(`Creating YAML Env:\n'${result}' .`)
-
-		// Run the conda create environment command
-		var command = `conda env export > "${result}"`
-		sendCommandToTerminal(command)
-
+		console.log(`Got: ${result}`)
+		if (result == undefined){
+			vscode.window.showErrorMessage(`Cannot create requirements file if no name is given.`);
+		}
+		else {
+			vscode.window.showInformationMessage(`Creating YAML Env:\n'${result}' .`);
+			console.log(`Creating YAML Env:\n'${result}' .`)
+	
+			// Run the conda create environment command
+			var command = `conda env export > "${result}"`
+			sendCommandToTerminal(command)
+		}
 	}
 
 
@@ -322,7 +295,7 @@ context.subscriptions.push(activateCondaYAMLFunct);
 			var filepath = vscode.window.activeTextEditor.document.fileName
 			var filename = path.parse(filepath).base;
 
-			if (filepath == 'undefined'){
+			if (filepath == 'undefined' || !activeFileIsYAML()){
 				filename = 'requirements.yml'
 			}
 
