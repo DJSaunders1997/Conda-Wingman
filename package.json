@@ -30,7 +30,7 @@
 		"onLanguage:yaml",
 		"onCommand:conda-wingman.buildCondaYAML",
 		"onCommand:conda-wingman.activateCondaYAML",
-		"onCommand:conda-wingman.createCondaYAML"
+		"onCommand:conda-wingman.writeRequirementsFile"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -44,8 +44,8 @@
 				"title": "Conda Wingman: Activate Conda Environment from YAML file"
 			},
 			{
-				"command": "conda-wingman.createCondaYAML",
-				"title": "Conda Wingman: Create a YAML file from the active Conda Environment"
+				"command": "conda-wingman.writeRequirementsFile",
+				"title": "Conda Wingman: Write a requirements YAML file from the active Conda Environment"
 			}
 		]
 	},

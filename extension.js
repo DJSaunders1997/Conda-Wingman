@@ -159,7 +159,7 @@ function activate(context) {
 
 	var createEnvIcon 	= new customStatusBarItem('$(tools) Build Env from YAML', 'Build conda environment from open YAML file', 'conda-wingman.buildCondaYAML')
 	var activateEnvIcon = new customStatusBarItem('$(symbol-event) Activate Env from YAML', 'Activate conda environment referenced in open YAML file', 'conda-wingman.activateCondaYAML')
-	var writeEnvIcon = new customStatusBarItem('$(book) Write Requirements File', 'Write active conda environment to a YAML file', 'conda-wingman.createCondaYAML')
+	var writeEnvIcon = new customStatusBarItem('$(book) Write Requirements File', 'Write active conda environment to a YAML file', 'conda-wingman.writeRequirementsFile')
 
 	// Setup listener to see when active file is not YAML
 	var listener = function (event) {
@@ -290,7 +290,7 @@ function activate(context) {
 	// Command: "Conda Wingman: Create a YAML file from the active Conda Environment"
 	// This command will create a requirements yaml to with a name input from the user.
 	// TODO: Ask user for input and save as input.yaml.
-	let createCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.createCondaYAML',
+	let writeRequirementsFileFunct = vscode.commands.registerCommand('conda-wingman.writeRequirementsFile',
 		function () {
 
 			writeEnvIcon.displayLoading()
@@ -307,14 +307,14 @@ function activate(context) {
 			console.log('Response: ', response);
 			
 			console.log(
-				`While the createCondaYAMLFunct has finished running.
+				`While the writeRequirementsFileFunct has finished running.
 				The createYAMLInputBox function is still running in the background.`
 				);
 
 			writeEnvIcon.displayDefault()
 		}
 	);
-	context.subscriptions.push(createCondaYAMLFunct);
+	context.subscriptions.push(writeRequirementsFileFunct);
 
 }
 
