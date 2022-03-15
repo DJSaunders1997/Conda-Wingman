@@ -159,6 +159,7 @@ function activate(context) {
 
 	var createEnvIcon 	= new customStatusBarItem('$(tools) Build Env from YAML', 'Build conda environment from open YAML file', 'conda-wingman.buildCondaYAML')
 	var activateEnvIcon = new customStatusBarItem('$(symbol-event) Activate Env from YAML', 'Activate conda environment referenced in open YAML file', 'conda-wingman.activateCondaYAML')
+	var writeEnvIcon = new customStatusBarItem('$(book) Write Requirements File', 'Write active conda environment to a YAML file', 'conda-wingman.createCondaYAML')
 
 	// Setup listener to see when active file is not YAML
 	var listener = function (event) {
@@ -168,6 +169,7 @@ function activate(context) {
 		if ( !activeFileIsYAML() ){
 			createEnvIcon.hide()
 			activateEnvIcon.hide()
+			writeEnvIcon.hide()
 		}
 
 	};
@@ -291,6 +293,7 @@ function activate(context) {
 	let createCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.createCondaYAML',
 		function () {
 
+			writeEnvIcon.displayLoading()
 			// Use current filename as default value if possible.
 			var filepath = vscode.window.activeTextEditor.document.fileName
 			var filename = path.parse(filepath).base;
@@ -305,9 +308,10 @@ function activate(context) {
 			
 			console.log(
 				`While the createCondaYAMLFunct has finished running.
-				The deleteInputBox function is still running in the background.`
+				The createYAMLInputBox function is still running in the background.`
 				);
 
+			writeEnvIcon.displayDefault()
 		}
 	);
 	context.subscriptions.push(createCondaYAMLFunct);
