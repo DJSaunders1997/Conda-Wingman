@@ -8,6 +8,9 @@ const vscode = require('vscode');
 const yaml = require('js-yaml');
 const fs   = require('fs');
 
+// Used to read and convert paths
+var path = require('path');
+
 // Terminal Functions copied from microsoft example terminal API
 // https://github.com/microsoft/vscode-extension-samples/blob/main/terminal-sample/src/extension.ts
 // Examples are given in TypeScript, so converted to JavaScript with an online converter https://extendsclass.com/typescript-to-javascript.html
@@ -156,6 +159,7 @@ function activate(context) {
 
 	var createEnvIcon 	= new customStatusBarItem('$(tools) Build Env from YAML', 'Build conda environment from open YAML file', 'conda-wingman.buildCondaYAML')
 	var activateEnvIcon = new customStatusBarItem('$(symbol-event) Activate Env from YAML', 'Activate conda environment referenced in open YAML file', 'conda-wingman.activateCondaYAML')
+	var writeEnvIcon = new customStatusBarItem('$(book) Write Requirements File', 'Write active conda environment to a YAML file', 'conda-wingman.writeRequirementsFile')
 
 	// Setup listener to see when active file is not YAML
 	var listener = function (event) {
@@ -165,6 +169,7 @@ function activate(context) {
 		if ( !activeFileIsYAML() ){
 			createEnvIcon.hide()
 			activateEnvIcon.hide()
+			writeEnvIcon.hide()
 		}
 
 	};
@@ -239,74 +244,45 @@ function activate(context) {
 		}
 
 	}
-);
-context.subscriptions.push(activateCondaYAMLFunct);
-
-	// Command: "Conda Wingman: Update open YAML file from the active Conda Environment"
-	// This command will update the open requirements.yaml with packages from the active environment.
-	let updateCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.updateCondaYAML',
-		function () {
-
-			var activeFilename = vscode.window.activeTextEditor.document.fileName
-
-			// Validate open file is YAML
-			if( activeFileIsYAML() ) {
-				var activeEditor = vscode.window.activeTextEditor;
-
-				var filename = activeEditor.document.fileName
-
-				console.log(`Filename is :${filename}`);
-
-				// Convert file path \\ characters to /
-				var filenameForwardSlash = filename.split('\\').join('/')
-				console.log(`Amended filename is :${filenameForwardSlash}`);
-
-				vscode.window.showInformationMessage(`Exporting active Conda environment to ${filenameForwardSlash} .`);
-				console.log(`Exporting active Conda environment to ${filenameForwardSlash} .`)
-
-				// Run the conda create environment command
-				var command = `conda env export > "${filenameForwardSlash}"`
-				sendCommandToTerminal(command)
-
-			}
-			else {
-				// split string by . and return last array element to get extension
-				var fileExt = activeFilename.split('.').pop();
-				vscode.window.showErrorMessage(`Cannot export a conda env to a ${fileExt} file. Only YAML files are supported.`);
-			}
-
-		}
 	);
-	context.subscriptions.push(updateCondaYAMLFunct);
+	context.subscriptions.push(activateCondaYAMLFunct);
 
 	/**
 	 * Shows an input box using window.showInputBox().
 	 * Higher level wrapper around vscode.window.showInputBox
 	 * Source: https://stackoverflow.com/questions/55854519/how-to-ask-user-for-username-or-other-data-with-vs-code-extension-api
 	 */
-	 async function createYAMLInputBox() {
-		const result = await vscode.window.showInputBox({
-			value: 'requirements.yml',
+	 async function createYAMLInputBox(defaultValue) {
+		const result = 
+		await vscode.window.showInputBox({
+			value: defaultValue,
 			placeHolder: 'Name of created conda environment YAML',
 			validateInput: text => {
-				// TODO: Figure out how this validation works and how I can use it.
-				// vscode.window.showInformationMessage(`Validating: ${text}`);
+				if (text.length == 0){
+					return 'You cannot leave this empty!'
+				}
+				var fileExt = text.split('.').pop().toLowerCase()
+
+				if (fileExt!='yaml' && fileExt!='yml'){
+					return(`Only YAML files are supported!`);
+				}
+
 			}
 		});
-		vscode.window.showInformationMessage(`Got: ${result}`);
-
 		console.log("Running asynchronous createYAMLInputBox function ");
-
-		//TODO: Maybe check the string isn't null before hand.
-		// 		Or we let conda handel the validation for us in the terminal?
-
-		vscode.window.showInformationMessage(`Creating YAML Env:\n'${result}' .`);
-		console.log(`Creating YAML Env:\n'${result}' .`)
-
-		// Run the conda create environment command
-		var command = `conda env export > "${result}"`
-		sendCommandToTerminal(command)
-
+		
+		console.log(`Got: ${result}`)
+		if (result == undefined){
+			vscode.window.showErrorMessage(`Cannot create requirements file if no name is given.`);
+		}
+		else {
+			vscode.window.showInformationMessage(`Creating requirements file Env:\n'${result}' .`);
+			console.log(`Creating requirements file Env:\n'${result}' .`)
+	
+			// Run the conda create environment command
+			var command = `conda env export > "${result}"`
+			sendCommandToTerminal(command)
+		}
 	}
 
 
@@ -314,21 +290,31 @@ context.subscriptions.push(activateCondaYAMLFunct);
 	// Command: "Conda Wingman: Create a YAML file from the active Conda Environment"
 	// This command will create a requirements yaml to with a name input from the user.
 	// TODO: Ask user for input and save as input.yaml.
-	let createCondaYAMLFunct = vscode.commands.registerCommand('conda-wingman.createCondaYAML',
+	let writeRequirementsFileFunct = vscode.commands.registerCommand('conda-wingman.writeRequirementsFile',
 		function () {
 
-			// Get response from user as to which env they want to delete
-			var response = createYAMLInputBox();
+			writeEnvIcon.displayLoading()
+			// Use current filename as default value if possible.
+			var filepath = vscode.window.activeTextEditor.document.fileName
+			var filename = path.parse(filepath).base;
+
+			if (filepath == 'undefined' || !activeFileIsYAML()){
+				filename = 'requirements.yml'
+			}
+
+			// Get response from user as to what to call their env.
+			var response = createYAMLInputBox(filename);
 			console.log('Response: ', response);
-
+			
 			console.log(
-				`While the createCondaYAMLFunct has finished running.
-		The deleteInputBox function is still running in the background.`
-			);
+				`While the writeRequirementsFileFunct has finished running.
+				The createYAMLInputBox function is still running in the background.`
+				);
 
+			writeEnvIcon.displayDefault()
 		}
 	);
-	context.subscriptions.push(createCondaYAMLFunct);
+	context.subscriptions.push(writeRequirementsFileFunct);
 
 }
 
