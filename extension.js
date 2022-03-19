@@ -81,6 +81,54 @@ function getOpenDocumentPath() {
  * Then attempts to activate this environment with the terminal.
  */
 function activateEnvFromYAML(filenameForwardSlash) {
+
+
+	if (vscode.workspace.rootPath != undefined){
+		// Maybe this line reads config settings from json
+		// If it does then read it, and update "python.defaultInterpreterPath" to the location of the activated extension.
+		// pythonpath is depricated so can't use this method:
+		// selecting the default seems the best / only alternative.
+	
+
+	
+		console.log('vscode.workspace.rootPath exists!', vscode.workspace.rootPath)
+
+		var pathToLocalSettingsJson = vscode.workspace.rootPath + '\\.vscode\\settings.json'
+
+		// https://flaviocopes.com/how-to-check-if-file-exists-node/
+		try {
+
+			//console.log("local settings file exists! ")
+			
+			// TODO: Check JSON exists
+			
+			// https://stackoverflow.com/questions/53054756/javascript-appending-object-to-json-file
+			// read and write a .json file
+			var stringSettings = fs.readFileSync(pathToLocalSettingsJson, 'utf8');
+			console.log(stringSettings);
+			// transform a json string into a javascript array
+			let jsonSettings = JSON.parse(stringSettings);
+			// append an object to an array
+			jsonSettings["python.defaultInterpreterPath"] = "new_environment"
+			// transform back the array into a json string
+			stringSettings = JSON.stringify(jsonSettings);
+			// save the json file
+			fs.writeFileSync(pathToLocalSettingsJson,stringSettings,"utf-8");
+			
+			var defaultPythonInterpreter = vscode.workspace.getConfiguration().get("python.defaultInterpreterPath")
+			console.log(vscode.workspace.getConfiguration())
+			console.log("defaultPythonInterpreter is ", defaultPythonInterpreter)
+		}
+		catch(err) {
+			console.error(err)
+			// Assume error is due to file not existing
+			//TODO: create settings.json with python python.defaultInterpreterPath
+		}
+
+
+	}
+
+
 	// Send to terminal the command to activate the environment too
 	// We can get the name by reading the YAML's value to the name: key using js-yaml
 	try {
