@@ -72,6 +72,79 @@ function getOpenDocumentPath() {
 
 	return filenameForwardSlash
 }
+/**
+ * 
+ * @param {String} interpreter_path Path to the python.exe in the Conda Environment we're trying to activate.
+ * @returns void
+ * 
+ * To update the interpreter used by VSCode we must update the python.defaultInterpreterPath for the workspace.
+ * Most users will get this info from their default VSCode settings.
+ * However I don't want to constantly be overwriting peoples base interpreter for all workspaces.
+ * So instead I will update the settings.json to change it just for the open workspace.
+ * And create the file if it doesn't already exist.
+ */
+function setPythonInterpreter(interpreter_path) {
+
+	//console.log(vscode.workspace.rootPath) //deprecated
+	console.log("workspaceFolders ", vscode.workspace.workspaceFolders)
+
+	// Could've also used vscode.workspace.rootPath but has since been deprecated
+	if (vscode.workspace.workspaceFolders.length > 1) {
+		vscode.window.showWarningMessage('Conda Wingman does not currently support multi-root workspaces when activating environments. Read here for more info https://code.visualstudio.com/docs/editor/workspaces')
+		return
+	}
+
+	// Selected path of first workspaceFolder in dict as there should only be one
+	var workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath
+
+	// Maybe this line reads config settings from json
+	// If it does then read it, and update "python.defaultInterpreterPath" to the location of the activated extension.
+	// pythonpath is deprecated so can't use this method:
+	// selecting the default seems the best / only alternative.
+
+	console.log('workspacePath: ', workspacePath)
+
+	var pathToLocalSettingsJson = workspacePath + '\\.vscode\\settings.json'
+
+	// Check if settings file already exists
+	// https://flaviocopes.com/how-to-check-if-file-exists-node/
+	// Append/Overwrite JSON setting if file does exist
+	// Create file if it does not exist
+	// https://stackoverflow.com/questions/53054756/javascript-appending-object-to-json-file
+	try {
+		// read and write a .json file
+		var stringSettings = fs.readFileSync(pathToLocalSettingsJson, 'utf8');
+		console.log(stringSettings);
+
+		// transform a json string into a javascript array
+		let jsonSettings = JSON.parse(stringSettings);
+		// append an object to an array
+		jsonSettings["python.defaultInterpreterPath"] = `"$(interpreter_path)"` //TODO: change this to the actual environment thats been opened
+		// transform back the array into a json string
+		stringSettings = JSON.stringify(jsonSettings);
+		// save the json file
+		fs.writeFileSync(pathToLocalSettingsJson,stringSettings,"utf-8");
+		
+		var defaultPythonInterpreter = vscode.workspace.getConfiguration().get("python.defaultInterpreterPath")
+		console.log(vscode.workspace.getConfiguration())
+		console.log("defaultPythonInterpreter is ", defaultPythonInterpreter)
+	}
+	catch(err) {
+		console.error(err)
+		// Assume error is due to file not existing
+		//TODO: create settings.json with python python.defaultInterpreterPath
+
+		var newFileContent = `
+		{
+			"python.defaultInterpreterPath": "$(interpreter_path)"
+		}`
+
+		fs.writeFile(pathToLocalSettingsJson, newFileContent);
+
+	}
+
+}
+
 
 /**
  * 
@@ -81,54 +154,6 @@ function getOpenDocumentPath() {
  * Then attempts to activate this environment with the terminal.
  */
 function activateEnvFromYAML(filenameForwardSlash) {
-
-
-	if (vscode.workspace.rootPath != undefined){
-		// Maybe this line reads config settings from json
-		// If it does then read it, and update "python.defaultInterpreterPath" to the location of the activated extension.
-		// pythonpath is depricated so can't use this method:
-		// selecting the default seems the best / only alternative.
-	
-
-	
-		console.log('vscode.workspace.rootPath exists!', vscode.workspace.rootPath)
-
-		var pathToLocalSettingsJson = vscode.workspace.rootPath + '\\.vscode\\settings.json'
-
-		// https://flaviocopes.com/how-to-check-if-file-exists-node/
-		try {
-
-			//console.log("local settings file exists! ")
-			
-			// TODO: Check JSON exists
-			
-			// https://stackoverflow.com/questions/53054756/javascript-appending-object-to-json-file
-			// read and write a .json file
-			var stringSettings = fs.readFileSync(pathToLocalSettingsJson, 'utf8');
-			console.log(stringSettings);
-			// transform a json string into a javascript array
-			let jsonSettings = JSON.parse(stringSettings);
-			// append an object to an array
-			jsonSettings["python.defaultInterpreterPath"] = "new_environment"
-			// transform back the array into a json string
-			stringSettings = JSON.stringify(jsonSettings);
-			// save the json file
-			fs.writeFileSync(pathToLocalSettingsJson,stringSettings,"utf-8");
-			
-			var defaultPythonInterpreter = vscode.workspace.getConfiguration().get("python.defaultInterpreterPath")
-			console.log(vscode.workspace.getConfiguration())
-			console.log("defaultPythonInterpreter is ", defaultPythonInterpreter)
-		}
-		catch(err) {
-			console.error(err)
-			// Assume error is due to file not existing
-			//TODO: create settings.json with python python.defaultInterpreterPath
-		}
-
-
-	}
-
-
 	// Send to terminal the command to activate the environment too
 	// We can get the name by reading the YAML's value to the name: key using js-yaml
 	try {
@@ -148,6 +173,10 @@ function activateEnvFromYAML(filenameForwardSlash) {
 		console.log("Error parsing the yaml")
 		console.log(e);
 	}
+
+	// Update the Interpreter used by VSCode when debugging, running notebooks, etc
+	// Very messy way of achieving what I want.
+	setPythonInterpreter(env_name)
 
 }
 
