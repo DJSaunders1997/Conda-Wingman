@@ -1,0 +1,23 @@
+# .github/workflows/lint.yml
+name: CILint # name of the action (displayed in the github interface)
+
+# event list
+on: [push, pull_request]
+
+# list of things to do
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+    - name: Install dependencies
+      run: npm install
+    - name: Run ESLint
+      run: npx eslint .
+    - name: Node.js best practices
+      run: npx npm-check --update
