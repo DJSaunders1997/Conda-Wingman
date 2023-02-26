@@ -23,7 +23,7 @@
 		"Wingman",
 		"Environment",
 		"Environments",
-		"YAML"
+		"YAML" 
 	],
 	"preview": true,
 	"activationEvents": [
@@ -32,7 +32,7 @@
 		"onCommand:conda-wingman.activateCondaYAML",
 		"onCommand:conda-wingman.writeRequirementsFile"
 	],
-	"main": "./extension.js",
+	"main": "./src/extension.js",
 	"contributes": {
 		"commands": [
 			{
