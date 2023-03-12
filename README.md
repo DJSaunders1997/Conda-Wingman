@@ -4,9 +4,9 @@
 
 This is the README for the WIP extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman).
 
-[![Version](https://vsmarketplacebadges.dev/version-short/djsaunders1997.conda-wingman.svg?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
-[![Downloads](https://vsmarketplacebadges.dev/downloads-short/djsaunders1997.conda-wingman.svg?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
-[![Ratings](https://vsmarketplacebadges.dev/rating-short/djsaunders1997.conda-wingman.svg?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
+[![Version](https://vsmarketplacebadges.dev/version-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
+[![Downloads](https://vsmarketplacebadges.dev/downloads-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
+[![Ratings](https://vsmarketplacebadges.dev/rating-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
 
 This extension aims to help VSCode users manage and interact with Conda environments.
 Conda Wingman aims to add QoL improvements that help programmers use environments without having to memorise all of the conda commands.
