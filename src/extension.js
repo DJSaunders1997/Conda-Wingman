@@ -8,8 +8,12 @@ const {
   activateCondaYAML,
   writeRequirementsFile,
 } = require("./commands");
-const { activeFileIsYAML } = require("./utils")
-const { createEnvIcon, activateEnvIcon, writeEnvIcon } = require("./statusBarItems"); // Import initialised status bar items, because I can't pass them as arguments to command function
+const { activeFileIsYAML } = require("./utils");
+const {
+  createEnvIcon,
+  activateEnvIcon,
+  writeEnvIcon,
+} = require("./statusBarItems"); // Import initialised status bar items, because I can't pass them as arguments to command function
 
 /**
  * Function that is run on activation of extension.
@@ -29,17 +33,26 @@ function activate(context) {
     createEnvIcon.displayDefault();
     activateEnvIcon.displayDefault();
     writeEnvIcon.displayDefault();
-
   };
 
-  var fileChangeSubscription = vscode.window.onDidChangeActiveTextEditor(listener);
+  var fileChangeSubscription =
+    vscode.window.onDidChangeActiveTextEditor(listener);
   //subscription.dispose(); // stop listening for more active file changes
 
   // Register VSCODE commands as functions defined in other files.
   // TODO: Add icons to the function here as arguments somehow instead of using global variables?
-  const buildCommand = vscode.commands.registerCommand('conda-wingman.buildCondaYAML', buildCondaYAML);
-  const activateCommand = vscode.commands.registerCommand('conda-wingman.activateCondaYAML', activateCondaYAML);
-  const writeCommand = vscode.commands.registerCommand('conda-wingman.writeRequirementsFile', writeRequirementsFile);
+  const buildCommand = vscode.commands.registerCommand(
+    "conda-wingman.buildCondaYAML",
+    buildCondaYAML
+  );
+  const activateCommand = vscode.commands.registerCommand(
+    "conda-wingman.activateCondaYAML",
+    activateCondaYAML
+  );
+  const writeCommand = vscode.commands.registerCommand(
+    "conda-wingman.writeRequirementsFile",
+    writeRequirementsFile
+  );
 
   context.subscriptions.push(buildCommand, activateCommand, writeCommand);
 }

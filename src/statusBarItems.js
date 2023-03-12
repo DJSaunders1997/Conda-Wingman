@@ -38,7 +38,7 @@ class CustomStatusBarItem {
    */
   displayLoading() {
     this.statusBar.text = this.loadingText;
-    this.statusBar.show();    
+    this.statusBar.show();
   }
 }
 
@@ -46,19 +46,19 @@ class CustomStatusBarItem {
 // Export the object instances and not the class
 // Create custom status bar items
 var createEnvIcon = new CustomStatusBarItem(
-  defaultText="$(tools) Build Env from YAML",
-  tooltip="Build conda environment from open YAML file",
-  command="conda-wingman.buildCondaYAML"
+  (defaultText = "$(tools) Build Env from YAML"),
+  (tooltip = "Build conda environment from open YAML file"),
+  (command = "conda-wingman.buildCondaYAML")
 );
 var activateEnvIcon = new CustomStatusBarItem(
-  defaultText="$(symbol-event) Activate Env from YAML",
-  tooltip="Activate conda environment referenced in open YAML file",
-  command="conda-wingman.activateCondaYAML"
+  (defaultText = "$(symbol-event) Activate Env from YAML"),
+  (tooltip = "Activate conda environment referenced in open YAML file"),
+  (command = "conda-wingman.activateCondaYAML")
 );
 var writeEnvIcon = new CustomStatusBarItem(
-  defaultText="$(book) Write Requirements File",
-  tooltip="Write active conda environment to a YAML file",
-  command="conda-wingman.writeRequirementsFile"
+  (defaultText = "$(book) Write Requirements File"),
+  (tooltip = "Write active conda environment to a YAML file"),
+  (command = "conda-wingman.writeRequirementsFile")
 );
 
 module.exports = { createEnvIcon, activateEnvIcon, writeEnvIcon };

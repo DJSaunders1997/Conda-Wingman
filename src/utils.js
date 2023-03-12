@@ -1,5 +1,5 @@
 const vscode = require("vscode");
-const yaml = require("js-yaml");// Required modules to read and parse yaml https://www.npmjs.com/package/js-yaml
+const yaml = require("js-yaml"); // Required modules to read and parse yaml https://www.npmjs.com/package/js-yaml
 const fs = require("fs");
 
 // Terminal Functions copied from microsoft example terminal API
