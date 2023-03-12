@@ -4,9 +4,9 @@
 
 This is the README for the WIP extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman).
 
-[![Version](https://vsmarketplacebadge.apphb.com/version/djsaunders1997.conda-wingman.svg)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
-[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/djsaunders1997.conda-wingman.svg)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
-[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/djsaunders1997.conda-wingman.svg)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
+[![Version](https://vsmarketplacebadges.dev/version-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
+[![Downloads](https://vsmarketplacebadges.dev/downloads-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
+[![Ratings](https://vsmarketplacebadges.dev/rating-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
 
 This extension aims to help VSCode users manage and interact with Conda environments.
 Conda Wingman aims to add QoL improvements that help programmers use environments without having to memorise all of the conda commands.
@@ -49,6 +49,9 @@ But of course they can also be accessed from the VScode command pallet:
 
 ## Release Notes
 
+### 0.2.1
+- Fixed bug that kept wingman status bar items open even when yaml was closed. 
+
 ### 0.2.0
 - New feature that allows users to activate environments straight from the requirements files by parsing the file.
 - New buttons for Activating Envs and Writing requirement files.
@@ -71,4 +74,4 @@ Added functionality to create conda environment YAML files from the command pall
 
 ## Author
 
-David Saunders - 2022
+David Saunders - 2023
