@@ -23,12 +23,13 @@ function activate(context) {
   // TODO: Can I move this to a different file?
   var listener = function (event) {
     console.log("Active window changed", event);
-    // If file is not yaml then deactivate the extension
-    if (!activeFileIsYAML()) {
-      createEnvIcon.hide();
-      activateEnvIcon.hide();
-      writeEnvIcon.hide();
-    }
+
+    // Check whether to display the status bar items every time the active file changes.
+    // Logic to check if the active file is a YAML file is in the status bar item class.
+    createEnvIcon.displayDefault();
+    activateEnvIcon.displayDefault();
+    writeEnvIcon.displayDefault();
+
   };
 
   var fileChangeSubscription = vscode.window.onDidChangeActiveTextEditor(listener);

@@ -9,6 +9,7 @@ const { activeFileIsYAML } = require("./utils");
 class CustomStatusBarItem {
   constructor(defaultText, tooltip, command) {
     this.defaultText = defaultText;
+    this.loadingText = this.defaultText + " $(loading~spin)";
 
     this.statusBar = vscode.window.createStatusBarItem(); // createStatusBarItem('createEnvStatusBar',1)
     this.statusBar.text = defaultText;
@@ -24,21 +25,20 @@ class CustomStatusBarItem {
   displayDefault() {
     this.statusBar.text = this.defaultText;
 
-    if (activeFileIsYAML) {
+    if (activeFileIsYAML()) {
       this.statusBar.show();
+    } else {
+      this.statusBar.hide();
     }
   }
   /**
    * To be displayed when action is running from the button being selected.
-   *
-   * TODO: Loading functionality doesn't work find a fix.
+   * Currently not implemented as the terminal api does not allow us to view status.
+   * TODO: Implement loading if the terminal api allows us to view status in future.
    */
   displayLoading() {
-    this.statusBar.text = this.defaultText + " $(loading~spin)";
-
-    if (activeFileIsYAML) {
-      this.statusBar.show();
-    }
+    this.statusBar.text = this.loadingText;
+    this.statusBar.show();    
   }
 }
 
@@ -46,19 +46,19 @@ class CustomStatusBarItem {
 // Export the object instances and not the class
 // Create custom status bar items
 var createEnvIcon = new CustomStatusBarItem(
-  "$(tools) Build Env from YAML",
-  "Build conda environment from open YAML file",
-  "conda-wingman.buildCondaYAML"
+  defaultText="$(tools) Build Env from YAML",
+  tooltip="Build conda environment from open YAML file",
+  command="conda-wingman.buildCondaYAML"
 );
 var activateEnvIcon = new CustomStatusBarItem(
-  "$(symbol-event) Activate Env from YAML",
-  "Activate conda environment referenced in open YAML file",
-  "conda-wingman.activateCondaYAML"
+  defaultText="$(symbol-event) Activate Env from YAML",
+  tooltip="Activate conda environment referenced in open YAML file",
+  command="conda-wingman.activateCondaYAML"
 );
 var writeEnvIcon = new CustomStatusBarItem(
-  "$(book) Write Requirements File",
-  "Write active conda environment to a YAML file",
-  "conda-wingman.writeRequirementsFile"
+  defaultText="$(book) Write Requirements File",
+  tooltip="Write active conda environment to a YAML file",
+  command="conda-wingman.writeRequirementsFile"
 );
 
 module.exports = { createEnvIcon, activateEnvIcon, writeEnvIcon };
