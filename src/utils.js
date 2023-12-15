@@ -43,6 +43,26 @@ function activeFileIsYAML() {
 
 /**
  *
+ * @param {string} filenameForwardSlash : filename or path to yaml environment file.
+ *
+ * Function will read the specified yaml file and pick out the "name" value.
+ * @returns {string} The name of the environment.
+ */
+function getEnvNameFromYAML(filenameForwardSlash) {
+  try {
+    const yamlDoc = yaml.load(fs.readFileSync(filenameForwardSlash, "utf8"));
+    console.log(yamlDoc);
+
+    var env_name = yamlDoc["name"];
+    return env_name;
+  } catch (e) {
+    console.error("Error parsing the yaml", e);
+    return null;
+  }
+}
+
+/**
+ *
  * @returns the filepath of the open document
  *
  * Reads the current open document, and converts the path into a more friendly format.
@@ -71,12 +91,8 @@ function getOpenDocumentPath() {
  */
 function activateEnvFromYAML(filenameForwardSlash) {
   // Send to terminal the command to activate the environment too
-  // We can get the name by reading the YAML's value to the name: key using js-yaml
   try {
-    const yamlDoc = yaml.load(fs.readFileSync(filenameForwardSlash, "utf8")); //TODO: Add better error handling
-    console.log(yamlDoc);
-
-    var env_name = yamlDoc["name"];
+    var env_name = getEnvNameFromYAML(filenameForwardSlash);
 
     vscode.window.showInformationMessage(`Activating ${env_name} .`);
     console.log(`Activating ${env_name} .`);
@@ -86,6 +102,32 @@ function activateEnvFromYAML(filenameForwardSlash) {
     sendCommandToTerminal(command);
   } catch (e) {
     vscode.window.showErrorMessage("Error parsing the yaml"); //TODO: Add better error handling to Release Logs
+    console.log("Error parsing the yaml");
+    console.log(e);
+  }
+}
+
+/**
+ *
+ * @param {string} filenameForwardSlash : filename or path to yaml environment file.
+ *
+ * Function will read the specified yaml file and pick out the "name" value.
+ * Then attempts to delete this environment with the terminal.
+ */
+function deleteEnvFromYAML(filenameForwardSlash) {
+  try {
+    var env_name = getEnvNameFromYAML(filenameForwardSlash);
+
+    vscode.window.showInformationMessage(`Deleting ${env_name} .`);
+    console.log(`Deleting ${env_name} .`);
+
+    // TODO: Check if the environment is active, and if so, deactivate it first.
+
+    // Run the conda delete environment command
+    var command = `conda env remove --name ${env_name}`;
+    sendCommandToTerminal(command);
+  } catch (e) {
+    vscode.window.showErrorMessage("Error parsing the yaml");
     console.log("Error parsing the yaml");
     console.log(e);
   }
@@ -136,4 +178,5 @@ module.exports = {
   getOpenDocumentPath,
   activateEnvFromYAML,
   createYAMLInputBox,
+  deleteEnvFromYAML
 };

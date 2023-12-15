@@ -46,6 +46,10 @@
 			{
 				"command": "conda-wingman.writeRequirementsFile",
 				"title": "Conda Wingman: Write a requirements YAML file from the active Conda Environment"
+			},
+			{
+				"command": "extension.deleteCondaEnv",
+				"title": "Delete Conda Environment"
 			}
 		]
 	},
