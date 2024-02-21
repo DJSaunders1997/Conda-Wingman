@@ -6,12 +6,14 @@ const {
   activeFileIsYAML,
   getOpenDocumentPath,
   activateEnvFromYAML,
+  deleteEnvFromYAML,
   createYAMLInputBox,
 } = require("./utils");
 const {
   createEnvIcon,
   activateEnvIcon,
   writeEnvIcon,
+  deleteEnvIcon,
 } = require("./statusBarItems"); // TODO: Make these arguments to the functions
 
 function buildCondaYAML() {
@@ -58,6 +60,31 @@ function activateCondaYAML() {
   }
 }
 
+/**
+ * Deletes a Conda environment.
+ * @function deleteCondaEnv
+ * @description This function deletes a Conda environment. It checks if the active file is a YAML file and deletes the environment from the YAML file. If the active file is not a YAML file, it displays an error message indicating that only YAML files are supported.
+ */
+function deleteCondaEnv() {
+  const filenameForwardSlash = getOpenDocumentPath();
+
+  var activeFilename = vscode.window.activeTextEditor.document.fileName;
+
+  // Validate open file is YAML
+  if (activeFileIsYAML()) {
+    deleteEnvFromYAML(filenameForwardSlash);
+
+    //Remove loading icon from bar
+    deleteEnvIcon.displayDefault();
+  } else {
+    // split string by . and return last array element to get extension
+    var fileExt = activeFilename.split(".").pop();
+    vscode.window.showErrorMessage(
+      `Cannot read conda env info from a ${fileExt} file. Only YAML files are supported.`
+    );
+  }
+}
+
 // Command: "Conda Wingman: Create a YAML file from the active Conda Environment"
 // This command will create a requirements yaml to with a name input from the user.
 // TODO: Ask user for input and save as input.yaml.
@@ -86,4 +113,5 @@ module.exports = {
   buildCondaYAML,
   activateCondaYAML,
   writeRequirementsFile,
+  deleteCondaEnv,
 };

@@ -60,5 +60,11 @@ var writeEnvIcon = new CustomStatusBarItem(
   (tooltip = "Write active conda environment to a YAML file"),
   (command = "conda-wingman.writeRequirementsFile")
 );
+//create custom status bar item to delete env
+var deleteEnvIcon = new CustomStatusBarItem(
+  (defaultText = "$(trashcan) Delete Env from YAML"),
+  (tooltip = "Delete conda environment referenced in open YAML file"),
+  (command = "conda-wingman.deleteCondaEnv")
+);
 
-module.exports = { createEnvIcon, activateEnvIcon, writeEnvIcon };
+module.exports = { createEnvIcon, activateEnvIcon, writeEnvIcon, deleteEnvIcon };

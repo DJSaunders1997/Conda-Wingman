@@ -7,12 +7,14 @@ const {
   buildCondaYAML,
   activateCondaYAML,
   writeRequirementsFile,
+  deleteCondaEnv,
 } = require("./commands");
 const { activeFileIsYAML } = require("./utils");
 const {
   createEnvIcon,
   activateEnvIcon,
   writeEnvIcon,
+  deleteEnvIcon,
 } = require("./statusBarItems"); // Import initialised status bar items, because I can't pass them as arguments to command function
 
 /**
@@ -33,6 +35,7 @@ function activate(context) {
     createEnvIcon.displayDefault();
     activateEnvIcon.displayDefault();
     writeEnvIcon.displayDefault();
+    deleteEnvIcon.displayDefault();
   };
 
   var fileChangeSubscription =
@@ -53,8 +56,12 @@ function activate(context) {
     "conda-wingman.writeRequirementsFile",
     writeRequirementsFile
   );
+  const deleteCommand = vscode.commands.registerCommand(
+    "conda-wingman.deleteCondaEnv",
+    deleteCondaEnv
+  );
 
-  context.subscriptions.push(buildCommand, activateCommand, writeCommand);
+  context.subscriptions.push(buildCommand, activateCommand, writeCommand, deleteCommand);
 }
 
 // this method is called when your extension is deactivated
