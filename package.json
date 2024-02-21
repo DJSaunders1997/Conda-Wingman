@@ -49,7 +49,7 @@
 			},
 			{
 				"command": "extension.deleteCondaEnv",
-				"title": "Delete Conda Environment"
+				"title": "Conda Wingman: Delete Conda Environment"
 			}
 		]
 	},
