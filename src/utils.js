@@ -121,7 +121,10 @@ function deleteEnvFromYAML(filenameForwardSlash) {
     vscode.window.showInformationMessage(`Deleting ${env_name} .`);
     console.log(`Deleting ${env_name} .`);
 
-    // TODO: Check if the environment is active, and if so, deactivate it first.
+    // Env to be deleted can't be active when deleting
+    // therefore deactivate any env first.
+    var deactivateCommand = 'conda deactivate';
+    sendCommandToTerminal(deactivateCommand);
 
     // Run the conda delete environment command
     var command = `conda env remove --name ${env_name}`;
