@@ -2,7 +2,7 @@
 	"name": "conda-wingman",
 	"displayName": "Conda Wingman",
 	"description": "Help programmers use environments without memorising conda commands.",
-	"version": "0.2.1",
+	"version": "1.0.0",
 	"publisher": "DJSaunders1997",
 	"engines": {
 		"vscode": "^1.75.1"
@@ -25,12 +25,13 @@
 		"Environments",
 		"YAML" 
 	],
-	"preview": true,
+	"preview": false,
 	"activationEvents": [
 		"onLanguage:yaml",
 		"onCommand:conda-wingman.buildCondaYAML",
 		"onCommand:conda-wingman.activateCondaYAML",
-		"onCommand:conda-wingman.writeRequirementsFile"
+		"onCommand:conda-wingman.writeRequirementsFile",
+		"onCommand:conda-wingman.deleteCondaEnv"
 	],
 	"main": "./src/extension.js",
 	"contributes": {
@@ -48,7 +49,7 @@
 				"title": "Conda Wingman: Write a requirements YAML file from the active Conda Environment"
 			},
 			{
-				"command": "extension.deleteCondaEnv",
+				"command": "conda-wingman.deleteCondaEnv",
 				"title": "Conda Wingman: Delete Conda Environment"
 			}
 		]
