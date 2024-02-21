@@ -12,8 +12,6 @@ This extension aims to help VSCode users manage and interact with Conda environm
 Conda Wingman aims to add QoL improvements that help programmers use environments without having to memorise all of the conda commands.
 
 ## Features
-Currently Conda Wingman features are limited, but with big plans : )
-
 The extension supports the following features at the click of a button / single command:
 
 ### Creating Environments 
@@ -39,15 +37,27 @@ Selecting this will run the command
 ```conda env export > YOUR_REQUIREMENTS_FILE```
 VScode command pallet: ```>Conda Wingman: Write a requirements YAML file from the active Conda Environment```
 
+### Deleting Environments
+To remove an existing Conda environment, you can use the delete environment feature. 
+Selecting this will run the command 
+```conda deactivate
+conda env remove -n YOUR-ENVIRONMENT
+```
+VScode command pallet: ```>Conda Wingman: Delete Conda Environment```
+
 ## Use
 When a YAML file is opened as the active file in the text editor the feature options will be visible in the status bar:
 
 ![Status Bar](images/Status-Bar-Screenshot.png)
 
-But of course they can also be accessed from the VScode command pallet:
+These can also be accessed from the VScode command pallet:
 ![Command Pallet](images/Pallet-Create-Screenshot.png)
 
 ## Release Notes
+
+### 1.0.0
+- Adding `Delete Env` functionality.
+
 
 ### 0.2.1
 - Fixed bug that kept wingman status bar items open even when yaml was closed. 
