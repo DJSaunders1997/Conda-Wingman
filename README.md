@@ -53,6 +53,7 @@ These can also be accessed from the VScode command pallet:
 ## Release Notes
 
 ### 1.0.0
+- First official release out of preview!
 - Adding `Delete Env` functionality.
 
 
