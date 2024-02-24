@@ -1,7 +1,7 @@
 # Pipeline from https://www.eliostruyf.com/publishing-vscode-extensions-github-actions/
 
-# This GitHub Actions workflow automatically publishes the VSCode extension to the Visual Studio Code Marketplace upon a new release being published. 
-# It checks out the code, sets up a Node.js environment, installs dependencies, installs the vsce tool. 
+# This GitHub Actions workflow automatically publishes the VSCode extension to the Visual Studio Code Marketplace upon a new release being published.
+# It checks out the code, sets up a Node.js environment, installs dependencies, installs the vsce tool.
 # Then publishes the extension using a Personal Access Token (PAT) stored in the repository's secrets.
 
 name: Release
@@ -9,6 +9,7 @@ on:
   release:
     types:
       - published # Triggered when a release is published. https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release
+
   workflow_dispatch: # Allows manual triggering of the workflow.
 
 jobs:
@@ -29,6 +30,4 @@ jobs:
         run: npm i -g vsce
 
       - name: Publish
-        # run: vsce publish -p ${{ secrets.VSCE_PAT }}
-        run: echo "Run publish here!"
-
+        run: vsce publish -p ${{ secrets.VSCE_PAT }}
