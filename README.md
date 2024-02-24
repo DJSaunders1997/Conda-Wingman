@@ -47,32 +47,7 @@ The supported commands are:
 
 ## Release Notes
 
-### 1.0.0
-- First official release out of preview!
-- Adding `Delete Env` functionality.
-
-
-### 0.2.1
-- Fixed bug that kept wingman status bar items open even when yaml was closed. 
-
-### 0.2.0
-- New feature that allows users to activate environments straight from the requirements files by parsing the file.
-- New buttons for Activating Envs and Writing requirement files.
-- Icon Overhaul for Build Env status bar button.
-- Interface added when user writes a requirement file.
-
-
-### 0.1.0
-
-- Changing to [semantic versioning numbers](https://semver.org/).
-Added functionality to create conda environment YAML files from the command pallet. Small update to logo.
-
-### 0.0.2
-
-- Improving readme.
-### 0.0.1
-
-- Initial release of extension to VSCode Extension Marketplace
+See [CHANGELOG](CHANGELOG.md) for more information.
 
 
 ## Contributing
