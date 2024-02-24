@@ -1,12 +1,20 @@
 # Conda Wingman
 
+
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/DJSaunders1997/Conda-Wingman/blob/main/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
+
 ![Banner](images/Logo-Banner.png)
 
-This is the README for the extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman).
+
+
 
 [![Version](https://vsmarketplacebadges.dev/version-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
 [![Downloads](https://vsmarketplacebadges.dev/downloads-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
 [![Ratings](https://vsmarketplacebadges.dev/rating-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
+
+
+This is the README for the extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman).
 
 This extension aims to help VSCode users manage and interact with Conda environments.
 Conda Wingman aims to add QoL improvements that help programmers use environments without having to memorise all of the conda commands.
