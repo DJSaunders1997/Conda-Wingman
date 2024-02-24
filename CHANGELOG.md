@@ -4,9 +4,10 @@ All notable changes to the "Conda Wingman" extension will be documented in this 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [1.0.0] - 2023-02
+## [1.0.0] - 2024-02
 - First official release out of preview!
 - Adding `Delete Env` functionality.
+- Added automated release process using GitHub Actions.
 
 ## [0.2.1] - 2023-03
 - Fixed bug that kept wingman status bar items open even when yaml was closed.
