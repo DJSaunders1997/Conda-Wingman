@@ -12,7 +12,12 @@ This extension aims to help VSCode users manage and interact with Conda environm
 Conda Wingman aims to add QoL improvements that help programmers use environments without having to memorise all of the conda commands.
 
 ## Features
-The extension supports the following features at the click of a button / single command:
+
+![VSCode Screenshot](images/VSCode-Screenshot.png)
+
+Conda Wingman dynamically adds status bar items for quick Conda command access when a YAML file is open, simplifying Conda environment management directly within VSCode.
+
+The supported commands are:
 
 ### Creating Environments 
 - **Command:** Create a Conda environment from the open requirements file by running:
