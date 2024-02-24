@@ -75,6 +75,16 @@ Added functionality to create conda environment YAML files from the command pall
 - Initial release of extension to VSCode Extension Marketplace
 
 
+## Contributing
+
+All contributions are welcome! 
+Please feel free to fork the repository and create a pull request.
+
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
 ## Author
 
 David Saunders - 2024
