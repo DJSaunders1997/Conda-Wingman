@@ -17,6 +17,9 @@ Conda Wingman aims to add QoL improvements that help programmers use environment
 
 Conda Wingman dynamically adds status bar items for quick Conda command access when a YAML file is open, simplifying Conda environment management directly within VSCode.
 
+These can also be accessed from the VScode command pallet:
+![Command Pallet](images/Command-Pallet-Screenshot.png)
+
 The supported commands are:
 
 ### Creating Environments 
@@ -41,14 +44,6 @@ The supported commands are:
   conda env remove -n YOUR-ENVIRONMENT
   ```
 - **VS Code Command Palette:** `>Conda Wingman: Delete Conda Environment`
-
-## Use
-When a YAML file is opened as the active file in the text editor the feature options will be visible in the status bar:
-
-![Status Bar](images/Status-Bar-Screenshot.png)
-
-These can also be accessed from the VScode command pallet:
-![Command Pallet](images/Pallet-Create-Screenshot.png)
 
 ## Release Notes
 
