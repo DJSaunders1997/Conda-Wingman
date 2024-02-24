@@ -2,7 +2,7 @@
 
 ![Banner](images/Logo-Banner.png)
 
-This is the README for the WIP extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman).
+This is the README for the extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman).
 
 [![Version](https://vsmarketplacebadges.dev/version-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
 [![Downloads](https://vsmarketplacebadges.dev/downloads-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
@@ -15,35 +15,27 @@ Conda Wingman aims to add QoL improvements that help programmers use environment
 The extension supports the following features at the click of a button / single command:
 
 ### Creating Environments 
-Create a Conda environment from the open requirements file.
-Selecting this will run the command 
-```conda env create -f YOUR-REQUIREMENTS.YML```
-in the most recently used integrated terminal. If no terminals currently exist the extension will create a new one.
-
-VScode command pallet: ```>Conda Wingman: Build Conda Environment from YAML file```
-
+- **Command:** Create a Conda environment from the open requirements file by running:
+  ```conda env create -f YOUR-REQUIREMENTS.YML```
+- **VS Code Command Palette:** `>Conda Wingman: Build Conda Environment from YAML file`
 
 ### Activating Environments
-If you've already build the environment, you can instead activate it with another command.
-Selecting this will run the command 
-```conda activate YOUR-ENVIRONMENT```
-
-VScode command pallet: ```>Conda Wingman: Activate Conda Environment from YAML file```
+- **Command:** Activate an existing Conda environment with:
+  ```conda activate YOUR-ENVIRONMENT```
+- **VS Code Command Palette:** `>Conda Wingman: Activate Conda Environment`
 
 ### Writing Requirements Files
-
-This will output the contents of your active Conda environment to a file of your choice.
-Selecting this will run the command 
-```conda env export > YOUR_REQUIREMENTS_FILE```
-VScode command pallet: ```>Conda Wingman: Write a requirements YAML file from the active Conda Environment```
+- **Command:** Export the active Conda environment to a requirements file with:
+  ```conda env export > YOUR_REQUIREMENTS_FILE```
+- **VS Code Command Palette:** `>Conda Wingman: Write a requirements YAML file from the active Conda Environment`
 
 ### Deleting Environments
-To remove an existing Conda environment, you can use the delete environment feature. 
-Selecting this will run the command 
-```conda deactivate
-conda env remove -n YOUR-ENVIRONMENT
-```
-VScode command pallet: ```>Conda Wingman: Delete Conda Environment```
+- **Command:** Remove an existing Conda environment by first deactivating, then removing it with:
+  ```
+  conda deactivate
+  conda env remove -n YOUR-ENVIRONMENT
+  ```
+- **VS Code Command Palette:** `>Conda Wingman: Delete Conda Environment`
 
 ## Use
 When a YAML file is opened as the active file in the text editor the feature options will be visible in the status bar:
