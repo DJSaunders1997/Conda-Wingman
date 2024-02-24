@@ -82,4 +82,4 @@ Added functionality to create conda environment YAML files from the command pall
 
 ## Author
 
-David Saunders - 2023
+David Saunders - 2024
