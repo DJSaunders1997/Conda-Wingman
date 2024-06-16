@@ -3,6 +3,7 @@ const path = require('path');
 const { runTests } = require('@vscode/test-electron');
 
 async function main() {
+	console.log('Running tests');
 	try {
 		// The folder containing the Extension Manifest package.json
 		// Passed to `--extensionDevelopmentPath`

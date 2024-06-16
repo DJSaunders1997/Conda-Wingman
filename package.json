@@ -23,7 +23,7 @@
 		"Wingman",
 		"Environment",
 		"Environments",
-		"YAML" 
+		"YAML"
 	],
 	"preview": false,
 	"activationEvents": [
@@ -68,6 +68,7 @@
 		"eslint": "^8.35.0",
 		"glob": "^10.3.10",
 		"mocha": "^10.2.0",
+		"sinon": "^18.0.0",
 		"typescript": "^4.9.5"
 	},
 	"repository": {
