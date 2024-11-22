@@ -1,0 +1,15 @@
+# .github/workflows/lint.yml
+name: CILint # name of the action (displayed in the github interface)
+
+# event list
+on: [push, pull_request]
+
+# list of things to do
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Node Lint And Format
+      # You may pin to the exact commit or the version.
+      # uses: beauwilliams/run-node-formatter@e63ad780393e58e0469f1a1e0e8dc6ee889f2975
+      uses: beauwilliams/run-node-formatter@latest
