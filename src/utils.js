@@ -7,32 +7,30 @@ const fs = require("fs");
 // Examples are given in TypeScript, so converted to JavaScript with an online converter https://extendsclass.com/typescript-to-javascript.html
 // Function created by me to encapsulate the example terminalapi.sendText VSCode command
 function sendCommandToTerminal(command) {
+  if (!command) return;
+
   // If there is no active terminal then create one
   // Then read in the active terminal for us to use
-  var terminal = vscode.window.activeTerminal;
+  let terminal = vscode.window.activeTerminal;
 
-  if (typeof terminal == "undefined") {
-    vscode.window.showInformationMessage(
-      "No active terminal found. Creating new terminal."
-    );
+  if (!terminal) {
     console.log("No active terminal found. Creating new terminal.");
-    var terminal = vscode.window.createTerminal();
+    terminal = vscode.window.createTerminal();
   }
 
   // Send command to active/new terminal
   terminal.show();
   terminal.sendText(command);
-
-  console.log(`Command '${command}' sent to terminal`);
 }
 
 // Helper function to check if active file is a YAML file
 // Return true if active file is YAML
 function activeFileIsYAML() {
-  var activeFilename = vscode.window.activeTextEditor.document.fileName;
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) return false;
 
   // split string by . and return last array element to get extension
-  var fileExt = activeFilename.split(".").pop();
+  const fileExt = editor.document.fileName.split(".").pop();
 
   if (fileExt.toLowerCase() == "yaml" || fileExt.toLowerCase() == "yml") {
     return true;
@@ -51,9 +49,8 @@ function activeFileIsYAML() {
 function getEnvNameFromYAML(filenameForwardSlash) {
   try {
     const yamlDoc = yaml.load(fs.readFileSync(filenameForwardSlash, "utf8"));
-    console.log(yamlDoc);
 
-    var env_name = yamlDoc["name"];
+    const env_name = yamlDoc["name"];
     return env_name;
   } catch (e) {
     console.error("Error parsing the yaml", e);
@@ -70,14 +67,13 @@ function getEnvNameFromYAML(filenameForwardSlash) {
  * TODO: make this OS agnostic, as I'm sure this only effects windows atm.
  */
 function getOpenDocumentPath() {
-  var activeEditor = vscode.window.activeTextEditor;
-  var filename = activeEditor.document.fileName;
+  const activeEditor = vscode.window.activeTextEditor;
+  if (!activeEditor) return null;
 
-  console.log(`Filename is :${filename}`);
+  const filename = activeEditor.document.fileName;
 
   // Convert file path \\ characters to /
-  var filenameForwardSlash = filename.split("\\").join("/");
-  console.log(`Amended filename is :${filenameForwardSlash}`);
+  const filenameForwardSlash = filename.split("\\").join("/");
 
   return filenameForwardSlash;
 }
@@ -91,20 +87,17 @@ function getOpenDocumentPath() {
  */
 function activateEnvFromYAML(filenameForwardSlash) {
   // Send to terminal the command to activate the environment too
-  try {
-    var env_name = getEnvNameFromYAML(filenameForwardSlash);
-
-    vscode.window.showInformationMessage(`Activating ${env_name} .`);
-    console.log(`Activating ${env_name} .`);
-
-    // Run the conda create environment command
-    var command = `conda activate ${env_name}`;
-    sendCommandToTerminal(command);
-  } catch (e) {
-    vscode.window.showErrorMessage("Error parsing the yaml"); //TODO: Add better error handling to Release Logs
-    console.log("Error parsing the yaml");
-    console.log(e);
+  const env_name = getEnvNameFromYAML(filenameForwardSlash);
+  if (!env_name) {
+    vscode.window.showErrorMessage("Error parsing the yaml");
+    return;
   }
+
+  console.log(`Activating ${env_name} .`);
+
+  // Run the conda activate environment command
+  const command = `conda activate ${env_name}`;
+  sendCommandToTerminal(command);
 }
 
 /**
@@ -115,25 +108,22 @@ function activateEnvFromYAML(filenameForwardSlash) {
  * Then attempts to delete this environment with the terminal.
  */
 function deleteEnvFromYAML(filenameForwardSlash) {
-  try {
-    var env_name = getEnvNameFromYAML(filenameForwardSlash);
-
-    vscode.window.showInformationMessage(`Deleting ${env_name} .`);
-    console.log(`Deleting ${env_name} .`);
-
-    // Env to be deleted can't be active when deleting
-    // therefore deactivate any env first.
-    var deactivateCommand = 'conda deactivate';
-    sendCommandToTerminal(deactivateCommand);
-
-    // Run the conda delete environment command
-    var command = `conda env remove --name ${env_name}`;
-    sendCommandToTerminal(command);
-  } catch (e) {
+  const env_name = getEnvNameFromYAML(filenameForwardSlash);
+  if (!env_name) {
     vscode.window.showErrorMessage("Error parsing the yaml");
-    console.log("Error parsing the yaml");
-    console.log(e);
+    return;
   }
+
+  console.log(`Deleting ${env_name} .`);
+
+  // Env to be deleted can't be active when deleting
+  // therefore deactivate any env first.
+  const deactivateCommand = 'conda deactivate';
+  sendCommandToTerminal(deactivateCommand);
+
+  // Run the conda delete environment command
+  const command = `conda env remove --name ${env_name}`;
+  sendCommandToTerminal(command);
 }
 
 /**
@@ -149,30 +139,23 @@ async function createYAMLInputBox(defaultValue) {
       if (text.length == 0) {
         return "You cannot leave this empty!";
       }
-      var fileExt = text.split(".").pop().toLowerCase();
+      const fileExt = text.split(".").pop().toLowerCase();
 
       if (fileExt != "yaml" && fileExt != "yml") {
         return `Only YAML files are supported!`;
       }
     },
   });
-  console.log("Running asynchronous createYAMLInputBox function ");
 
-  console.log(`Got: ${result}`);
   if (result == undefined) {
-    vscode.window.showErrorMessage(
-      `Cannot create requirements file if no name is given.`
-    );
-  } else {
-    vscode.window.showInformationMessage(
-      `Creating requirements file Env:\n'${result}' .`
-    );
-    console.log(`Creating requirements file Env:\n'${result}' .`);
-
-    // Run the conda create environment command
-    var command = `conda env export > "${result}"`;
-    sendCommandToTerminal(command);
+    return;
   }
+
+  console.log(`Creating requirements file Env:\n'${result}' .`);
+
+  // Run the conda export environment command
+  const command = `conda env export > "${result}"`;
+  sendCommandToTerminal(command);
 }
 
 module.exports = {

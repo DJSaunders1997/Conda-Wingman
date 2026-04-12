@@ -9,7 +9,9 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-    - name: Node Lint And Format
-      # You may pin to the exact commit or the version.
-      # uses: beauwilliams/run-node-formatter@e63ad780393e58e0469f1a1e0e8dc6ee889f2975
-      uses: beauwilliams/run-node-formatter@latest
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run lint

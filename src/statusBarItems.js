@@ -45,26 +45,44 @@ class CustomStatusBarItem {
 // Use CustomStatusBarItem class to create status bar items
 // Export the object instances and not the class
 // Create custom status bar items
-var createEnvIcon = new CustomStatusBarItem(
-  (defaultText = "$(tools) Build Env from YAML"),
-  (tooltip = "Build conda environment from open YAML file"),
-  (command = "conda-wingman.buildCondaYAML")
+const createEnvIcon = new CustomStatusBarItem(
+  "$(tools) Build Env from YAML",
+  "Build conda environment from open YAML file",
+  "conda-wingman.buildCondaYAML"
 );
-var activateEnvIcon = new CustomStatusBarItem(
-  (defaultText = "$(symbol-event) Activate Env from YAML"),
-  (tooltip = "Activate conda environment referenced in open YAML file"),
-  (command = "conda-wingman.activateCondaYAML")
+const activateEnvIcon = new CustomStatusBarItem(
+  "$(symbol-event) Activate Env from YAML",
+  "Activate conda environment referenced in open YAML file",
+  "conda-wingman.activateCondaYAML"
 );
-var writeEnvIcon = new CustomStatusBarItem(
-  (defaultText = "$(book) Write Requirements File"),
-  (tooltip = "Write active conda environment to a YAML file"),
-  (command = "conda-wingman.writeRequirementsFile")
+const writeEnvIcon = new CustomStatusBarItem(
+  "$(book) Write Requirements File",
+  "Write active conda environment to a YAML file",
+  "conda-wingman.writeRequirementsFile"
 );
 //create custom status bar item to delete env
-var deleteEnvIcon = new CustomStatusBarItem(
-  (defaultText = "$(trashcan) Delete Env from YAML"),
-  (tooltip = "Delete conda environment referenced in open YAML file"),
-  (command = "conda-wingman.deleteCondaEnv")
+const deleteEnvIcon = new CustomStatusBarItem(
+  "$(trashcan) Delete Env from YAML",
+  "Delete conda environment referenced in open YAML file",
+  "conda-wingman.deleteCondaEnv"
 );
 
-module.exports = { createEnvIcon, activateEnvIcon, writeEnvIcon, deleteEnvIcon };
+// All items that participate in show/hide grouping
+const allItems = [createEnvIcon, activateEnvIcon, writeEnvIcon, deleteEnvIcon];
+
+function showAllStatusBarItems() {
+  for (const item of allItems) {
+    item.displayDefault();
+  }
+}
+
+function hideAllStatusBarItems() {
+  for (const item of allItems) {
+    item.statusBar.hide();
+  }
+}
+
+module.exports = {
+  createEnvIcon, activateEnvIcon, writeEnvIcon, deleteEnvIcon,
+  showAllStatusBarItems, hideAllStatusBarItems,
+};

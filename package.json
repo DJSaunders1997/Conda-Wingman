@@ -1,15 +1,14 @@
 {
 	"name": "conda-wingman",
 	"displayName": "Conda Wingman",
-	"description": "Help programmers use environments without memorising conda commands.",
-	"version": "1.0.0",
+	"description": "Status bar buttons and commands for managing Conda environments from YAML files.",
+	"version": "1.1.0",
 	"publisher": "DJSaunders1997",
 	"engines": {
 		"vscode": "^1.75.1"
 	},
 	"categories": [
 		"Other",
-		"Snippets",
 		"Data Science",
 		"Machine Learning"
 	],
@@ -20,10 +19,11 @@
 	},
 	"keywords": [
 		"Conda",
-		"Wingman",
+		"Miniconda",
+		"Anaconda",
 		"Environment",
-		"Environments",
-		"YAML" 
+		"YAML",
+		"Python"
 	],
 	"preview": false,
 	"activationEvents": [
@@ -38,21 +38,31 @@
 		"commands": [
 			{
 				"command": "conda-wingman.buildCondaYAML",
-				"title": "Conda Wingman: Build Conda Environment from YAML file"
+				"title": "Conda Wingman: Build Environment from YAML"
 			},
 			{
 				"command": "conda-wingman.activateCondaYAML",
-				"title": "Conda Wingman: Activate Conda Environment from YAML file"
+				"title": "Conda Wingman: Activate Environment from YAML"
 			},
 			{
 				"command": "conda-wingman.writeRequirementsFile",
-				"title": "Conda Wingman: Write a requirements YAML file from the active Conda Environment"
+				"title": "Conda Wingman: Export Environment to YAML"
 			},
 			{
 				"command": "conda-wingman.deleteCondaEnv",
-				"title": "Conda Wingman: Delete Conda Environment"
+				"title": "Conda Wingman: Delete Environment"
 			}
-		]
+		],
+		"configuration": {
+			"title": "Conda Wingman",
+			"properties": {
+				"condaWingman.showStatusBarItems": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show Conda Wingman buttons in the status bar when a YAML file is open."
+				}
+			}
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",
