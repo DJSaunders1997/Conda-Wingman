@@ -53,11 +53,28 @@ The supported commands are:
   ```
 - **VS Code Command Palette:** `>Conda Wingman: Delete Conda Environment`
 
+### Switch Environment
+- **Command:** Pick from all available conda environments and activate the selected one.
+- **VS Code Command Palette:** `>Conda Wingman: Switch Environment`
+
+### Clickable Package Links
+Package names in conda environment YAML files are clickable — conda packages link to [anaconda.org](https://anaconda.org), pip sub-dependencies link to [PyPI](https://pypi.org).
+
+### Hover Tooltips
+Hover over a package name in a YAML file to see its description and latest version from PyPI.
+
+### Active Environment in Status Bar
+The status bar shows the current conda environment name and Python version, detected from the open YAML file. Click it to switch environments.
+
+### Auto-Set Python Interpreter
+When a conda environment is detected, the workspace Python interpreter (`python.defaultInterpreterPath`) is automatically set to point to it.
+
 ## Settings
 
 | Setting | Default | Description |
 |---|---|---|
 | `condaWingman.showStatusBarItems` | `true` | Show/hide status bar buttons |
+| `condaWingman.autoSetInterpreter` | `true` | Auto-set workspace Python interpreter from conda env |
 
 ## Release Notes
 

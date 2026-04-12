@@ -1,5 +1,6 @@
 const vscode = require("vscode");
 const path = require("path");
+const { execSync } = require("child_process");
 
 const {
   sendCommandToTerminal,
@@ -9,6 +10,8 @@ const {
   deleteEnvFromYAML,
   createYAMLInputBox,
 } = require("./utils");
+const { getCondaInterpreterPath, setWorkspacePythonInterpreter } = require("./interpreter");
+const { getConfig } = require("./config");
 const {
   activateEnvIcon,
   writeEnvIcon,
@@ -102,9 +105,61 @@ async function writeRequirementsFile() {
   writeEnvIcon.displayDefault();
 }
 
+/**
+ * Shows a quick pick of all conda environments and activates the selected one.
+ * Runs `conda env list --json` to get the list of environments.
+ * Also sets the workspace Python interpreter if autoSetInterpreter is enabled.
+ */
+async function switchEnvironment() {
+  let envs;
+  try {
+    const output = execSync("conda env list --json", { encoding: "utf8", timeout: 10000 });
+    const parsed = JSON.parse(output);
+    envs = parsed.envs || [];
+  } catch {
+    vscode.window.showErrorMessage("Failed to list conda environments. Is conda installed?");
+    return;
+  }
+
+  if (envs.length === 0) {
+    vscode.window.showInformationMessage("No conda environments found.");
+    return;
+  }
+
+  // Build quick pick items from env paths
+  // Each path looks like /home/user/miniconda3/envs/myenv or /home/user/miniconda3 (base)
+  const items = envs.map(envPath => {
+    const name = path.basename(envPath);
+    // The base env is the conda root dir itself, detect it
+    const isBase = !envPath.includes(path.join("envs", name));
+    return {
+      label: isBase ? "base" : name,
+      description: envPath,
+      envPath: envPath,
+    };
+  });
+
+  const selected = await vscode.window.showQuickPick(items, {
+    placeHolder: "Select a conda environment to activate",
+  });
+
+  if (!selected) return;
+
+  sendCommandToTerminal(`conda activate ${selected.label}`);
+
+  // Auto-set interpreter if enabled
+  if (getConfig().autoSetInterpreter) {
+    const interpreterPath = getCondaInterpreterPath(selected.label);
+    if (interpreterPath) {
+      setWorkspacePythonInterpreter(interpreterPath).catch(() => {});
+    }
+  }
+}
+
 module.exports = {
   buildCondaYAML,
   activateCondaYAML,
   writeRequirementsFile,
   deleteCondaEnv,
+  switchEnvironment,
 };

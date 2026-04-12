@@ -21,8 +21,11 @@ No build step — the extension runs directly from JS source files.
 
 ```
 extension.js       (activate: check conda, register commands, wire status bar, config listener)
-  ├── commands.js        (4 command handlers: build, activate, export, delete)
-  ├── statusBarItems.js  (CustomStatusBarItem class, 4 items, showAll/hideAll)
+  ├── commands.js        (5 command handlers: build, activate, export, delete, switch)
+  ├── statusBarItems.js  (CustomStatusBarItem class, 4 command items + env info item, showAll/hideAll)
+  ├── interpreter.js     (find conda env Python path, set python.defaultInterpreterPath)
+  ├── documentLinks.js   (clickable package links in YAML → anaconda.org / PyPI)
+  ├── codeLens.js        (hover tooltips with PyPI package info)
   ├── config.js          (reads condaWingman.* settings)
   └── utils.js           (sendCommandToTerminal, YAML helpers, activeFileIsYAML)
 ```

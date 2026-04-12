@@ -2,7 +2,7 @@
 	"name": "conda-wingman",
 	"displayName": "Conda Wingman",
 	"description": "Status bar buttons and commands for managing Conda environments from YAML files.",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"publisher": "DJSaunders1997",
 	"engines": {
 		"vscode": "^1.86.0"
@@ -31,7 +31,8 @@
 		"onCommand:conda-wingman.buildCondaYAML",
 		"onCommand:conda-wingman.activateCondaYAML",
 		"onCommand:conda-wingman.writeRequirementsFile",
-		"onCommand:conda-wingman.deleteCondaEnv"
+		"onCommand:conda-wingman.deleteCondaEnv",
+		"onCommand:conda-wingman.switchEnvironment"
 	],
 	"main": "./src/extension.js",
 	"contributes": {
@@ -51,6 +52,10 @@
 			{
 				"command": "conda-wingman.deleteCondaEnv",
 				"title": "Conda Wingman: Delete Environment"
+			},
+			{
+				"command": "conda-wingman.switchEnvironment",
+				"title": "Conda Wingman: Switch Environment"
 			}
 		],
 		"configuration": {
@@ -60,6 +65,11 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Show Conda Wingman buttons in the status bar when a YAML file is open."
+				},
+				"condaWingman.autoSetInterpreter": {
+					"type": "boolean",
+					"default": true,
+					"description": "Automatically set the workspace Python interpreter when a conda environment is detected."
 				}
 			}
 		}

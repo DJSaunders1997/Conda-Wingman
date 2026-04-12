@@ -162,6 +162,7 @@ module.exports = {
   sendCommandToTerminal,
   activeFileIsYAML,
   getOpenDocumentPath,
+  getEnvNameFromYAML,
   activateEnvFromYAML,
   createYAMLInputBox,
   deleteEnvFromYAML

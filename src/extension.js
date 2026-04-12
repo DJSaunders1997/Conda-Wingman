@@ -9,9 +9,13 @@ const {
   activateCondaYAML,
   writeRequirementsFile,
   deleteCondaEnv,
+  switchEnvironment,
 } = require("./commands");
 const { showAllStatusBarItems, hideAllStatusBarItems } = require("./statusBarItems");
 const { getConfig } = require("./config");
+const { getCondaInterpreterPath, setWorkspacePythonInterpreter } = require("./interpreter");
+const { registerDocumentLinks } = require("./documentLinks");
+const { registerCodeLens } = require("./codeLens");
 
 /**
  * Checks whether the `conda` CLI is available on PATH.
@@ -73,7 +77,38 @@ function activate(context) {
     deleteCondaEnv
   );
 
-  context.subscriptions.push(buildCommand, activateCommand, writeCommand, deleteCommand);
+  const switchCommand = vscode.commands.registerCommand(
+    "conda-wingman.switchEnvironment",
+    switchEnvironment
+  );
+
+  context.subscriptions.push(buildCommand, activateCommand, writeCommand, deleteCommand, switchCommand);
+
+  // Register clickable package links in YAML files
+  registerDocumentLinks(context);
+
+  // Register hover tooltips with PyPI info
+  registerCodeLens(context);
+
+  // Auto-set interpreter on activation if enabled
+  if (getConfig().autoSetInterpreter) {
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+      const yaml = require("js-yaml");
+      const fs = require("fs");
+      try {
+        const doc = yaml.load(fs.readFileSync(editor.document.fileName, "utf8"));
+        if (doc && doc.name) {
+          const interpreterPath = getCondaInterpreterPath(doc.name);
+          if (interpreterPath) {
+            setWorkspacePythonInterpreter(interpreterPath).catch(() => {});
+          }
+        }
+      } catch {
+        // Not a valid YAML or no env name, ignore
+      }
+    }
+  }
 
   // Show or hide status bar based on setting
   if (getConfig().showStatusBarItems) {

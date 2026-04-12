@@ -4,6 +4,16 @@ All notable changes to the "Conda Wingman" extension will be documented in this 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.2.0] - 2026-04
+
+### Added
+- **Clickable package links** — package names in YAML files link to anaconda.org (conda deps) or PyPI (pip deps)
+- **Hover tooltips** — hover over packages to see description and latest version from PyPI
+- **Switch Environment command** — quick pick of all conda envs, activate any one from the palette
+- **Active env in status bar** — shows conda env name and Python version, click to switch
+- **Auto-set Python interpreter** — automatically sets `python.defaultInterpreterPath` from detected conda env
+- `condaWingman.autoSetInterpreter` setting to control interpreter auto-setting
+
 ## [1.1.0] - 2026-04
 
 ### Added
