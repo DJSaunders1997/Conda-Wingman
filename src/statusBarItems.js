@@ -1,5 +1,6 @@
 const vscode = require("vscode");
-const { activeFileIsYAML } = require("./utils");
+const { activeFileIsYAML, getEnvNameFromYAML } = require("./utils");
+const { getCondaPythonVersion } = require("./interpreter");
 
 /**
  * Class to extend the vscode createStatusBarItem with additional functionality.
@@ -67,6 +68,39 @@ const deleteEnvIcon = new CustomStatusBarItem(
   "conda-wingman.deleteCondaEnv"
 );
 
+// Status bar item showing active conda env name and Python version.
+// Clicking it opens the switch environment picker.
+const envInfoItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+envInfoItem.command = "conda-wingman.switchEnvironment";
+envInfoItem.tooltip = "Click to switch conda environment";
+envInfoItem.text = "$(snake) conda: --";
+
+/**
+ * Reads the env name from the currently open YAML file and updates the
+ * env info status bar item with the environment name and Python version.
+ */
+function updateEnvInfo() {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor || !activeFileIsYAML()) {
+    // Keep showing last known state, don't clear it
+    return;
+  }
+
+  const filePath = editor.document.fileName;
+  const envName = getEnvNameFromYAML(filePath);
+  if (!envName) {
+    envInfoItem.text = "$(snake) conda: --";
+    return;
+  }
+
+  const version = getCondaPythonVersion(envName);
+  if (version) {
+    envInfoItem.text = `$(snake) conda: ${envName} (${version})`;
+  } else {
+    envInfoItem.text = `$(snake) conda: ${envName}`;
+  }
+}
+
 // All items that participate in show/hide grouping
 const allItems = [createEnvIcon, activateEnvIcon, writeEnvIcon, deleteEnvIcon];
 
@@ -74,15 +108,18 @@ function showAllStatusBarItems() {
   for (const item of allItems) {
     item.displayDefault();
   }
+  envInfoItem.show();
+  updateEnvInfo();
 }
 
 function hideAllStatusBarItems() {
   for (const item of allItems) {
     item.statusBar.hide();
   }
+  envInfoItem.hide();
 }
 
 module.exports = {
   createEnvIcon, activateEnvIcon, writeEnvIcon, deleteEnvIcon,
-  showAllStatusBarItems, hideAllStatusBarItems,
+  envInfoItem, showAllStatusBarItems, hideAllStatusBarItems, updateEnvInfo,
 };
