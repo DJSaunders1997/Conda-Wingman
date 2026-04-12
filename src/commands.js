@@ -1,5 +1,5 @@
 const vscode = require("vscode");
-var path = require("path");
+const path = require("path");
 
 const {
   sendCommandToTerminal,
@@ -10,11 +10,10 @@ const {
   createYAMLInputBox,
 } = require("./utils");
 const {
-  createEnvIcon,
   activateEnvIcon,
   writeEnvIcon,
   deleteEnvIcon,
-} = require("./statusBarItems"); // TODO: Make these arguments to the functions
+} = require("./statusBarItems");
 
 function buildCondaYAML() {
   const filenameForwardSlash = getOpenDocumentPath();
@@ -43,7 +42,7 @@ function buildCondaYAML() {
 function activateCondaYAML() {
   const filenameForwardSlash = getOpenDocumentPath();
 
-  var activeFilename = vscode.window.activeTextEditor.document.fileName;
+  const activeFilename = vscode.window.activeTextEditor.document.fileName;
 
   // Validate open file is YAML
   if (activeFileIsYAML()) {
@@ -53,7 +52,7 @@ function activateCondaYAML() {
     activateEnvIcon.displayDefault();
   } else {
     // split string by . and return last array element to get extension
-    var fileExt = activeFilename.split(".").pop();
+    const fileExt = activeFilename.split(".").pop();
     vscode.window.showErrorMessage(
       `Cannot read conda env info from a ${fileExt} file. Only YAML files are supported.`
     );
@@ -68,7 +67,7 @@ function activateCondaYAML() {
 function deleteCondaEnv() {
   const filenameForwardSlash = getOpenDocumentPath();
 
-  var activeFilename = vscode.window.activeTextEditor.document.fileName;
+  const activeFilename = vscode.window.activeTextEditor.document.fileName;
 
   // Validate open file is YAML
   if (activeFileIsYAML()) {
@@ -78,7 +77,7 @@ function deleteCondaEnv() {
     deleteEnvIcon.displayDefault();
   } else {
     // split string by . and return last array element to get extension
-    var fileExt = activeFilename.split(".").pop();
+    const fileExt = activeFilename.split(".").pop();
     vscode.window.showErrorMessage(
       `Cannot read conda env info from a ${fileExt} file. Only YAML files are supported.`
     );
@@ -90,21 +89,15 @@ function deleteCondaEnv() {
 // TODO: Ask user for input and save as input.yaml.
 async function writeRequirementsFile() {
   // Use current filename as default value if possible.
-  var filepath = vscode.window.activeTextEditor.document.fileName;
-  var filename = path.parse(filepath).base;
+  const filepath = vscode.window.activeTextEditor.document.fileName;
+  let filename = path.parse(filepath).base;
 
   if (filepath == "undefined" || !activeFileIsYAML()) {
     filename = "requirements.yml";
   }
 
   // Get response from user as to what to call their env.
-  var response = createYAMLInputBox(filename);
-  console.log("Response: ", response);
-
-  console.log(
-    `While the writeRequirementsFileFunct has finished running.
-        The createYAMLInputBox function is still running in the background.`
-  );
+  await createYAMLInputBox(filename);
 
   writeEnvIcon.displayDefault();
 }

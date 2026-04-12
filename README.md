@@ -12,6 +12,8 @@
 [![Ratings](https://vsmarketplacebadges.dev/rating-short/djsaunders1997.conda-wingman.png?style=for-the-badge&colorA=252525&colorB=#42AF29)](https://marketplace.visualstudio.com/items?itemName=djsaunders1997.conda-wingman)
 
 
+> **Considering a new project?** If you're starting fresh, take a look at [uv](https://docs.astral.sh/uv/) — it's a modern, fast Python package manager that's rapidly replacing Conda/pip for many workflows. The companion extension [UV Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.uv-wingman) offers inline version hints, dependency graphs, PyPI links, and more.
+
 This is the README for the extension [Conda Wingman](https://marketplace.visualstudio.com/items?itemName=DJSaunders1997.conda-wingman).
 
 This extension aims to help VSCode users manage and interact with Conda environments.
@@ -50,6 +52,12 @@ The supported commands are:
   conda env remove -n YOUR-ENVIRONMENT
   ```
 - **VS Code Command Palette:** `>Conda Wingman: Delete Conda Environment`
+
+## Settings
+
+| Setting | Default | Description |
+|---|---|---|
+| `condaWingman.showStatusBarItems` | `true` | Show/hide status bar buttons |
 
 ## Release Notes
 
